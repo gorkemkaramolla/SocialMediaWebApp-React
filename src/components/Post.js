@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
-
-export default function Postx() {
+import PostCard from "./Cards/PostCard";
+import "./styles/Post.css";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+export default function Post() {
   const [error, setError] = useState(null);
   const [isLoaded, setisLoaded] = useState(false);
   const [postList, setPostList] = useState([]);
@@ -21,15 +25,22 @@ export default function Postx() {
         }
       );
   }, []);
+  const styles = {
+    center: {
+      margin: "0 auto",
+    },
+  };
   if (error) {
     return <div>Error</div>;
   } else {
     return (
-      <ul>
+      <Container>
         {postList.map(({ title, content }) => (
-          <li>{title + "  " + content}</li>
+          <Col xs={8} className="mb-3  " style={styles.center}>
+            <PostCard title={title} content={content}></PostCard>
+          </Col>
         ))}
-      </ul>
+      </Container>
     );
   }
 }
