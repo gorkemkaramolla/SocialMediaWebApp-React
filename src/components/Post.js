@@ -27,7 +27,7 @@ export default function Postx() {
     return (
       <ul>
         {postList.map(({ title, content }) => (
-          <li>{title + " " + content}</li>
+          <li>{title + "  " + content}</li>
         ))}
       </ul>
     );
