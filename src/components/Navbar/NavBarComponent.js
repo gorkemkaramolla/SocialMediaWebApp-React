@@ -19,7 +19,7 @@ function NavbarComponent() {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Link className="nav-link" to="/">
+            <Link className="nav-link" to="/cards">
               Home
             </Link>
 
