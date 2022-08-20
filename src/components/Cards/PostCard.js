@@ -37,9 +37,12 @@ export default function PostCard(props) {
     <Card bgcolor="black" sx={{ width: 800, marginBottom: "1rem" }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe"></Avatar>
+          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+            {props.name != null && props.name.charAt(0).toUpperCase()}
+          </Avatar>
         }
-        title={props.title}
+}
+        title={props.name + " " + props.lastName}
       />
 
       <CardContent>

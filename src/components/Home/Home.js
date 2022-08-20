@@ -35,6 +35,9 @@ export default function Home() {
         {postList.map((element) => (
           <Row style={{ justifyContent: "center" }}>
             <PostCard
+              userId={element.userId}
+              lastName={element.lastName}
+              name={element.name}
               title={element.title}
               content={element.content}
             ></PostCard>
