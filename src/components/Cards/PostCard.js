@@ -14,59 +14,77 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Link } from "react-router-dom";
+import "./Postcard.scss";
 
 const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
+    const { expand, ...other } = props;
+    return <IconButton {...other} />;
 })(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
+    transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
+        duration: theme.transitions.duration.shortest,
+    }),
 }));
 
 export default function PostCard(props) {
-  const [expanded, setExpanded] = React.useState(false);
+    const [expanded, setExpanded] = React.useState(false);
+    const [liked, setLiked] = React.useState(false);
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    };
+    const handleFavorite = () => {
+        setLiked(!liked);
+    };
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+    return (
+        <Card sx={{ width: 800, marginBottom: "1rem" }}>
+            <CardHeader
+                avatar={
+                    <Link
+                        className="avatar-link"
+                        to={{ pathname: "/writers/" + props.writerId }}
+                    >
+                        <Avatar
+                            className="avatar-mui"
+                            sx={{ bgcolor: red[500] }}
+                            aria-label="recipe"
+                        >
+                            {props.name != null &&
+                                props.name.charAt(0).toUpperCase()}
+                        </Avatar>
+                    </Link>
+                }
+                title={props.name + " " + props.lastName}
+                subheader={props.title}
+            />
 
-  return (
-    <Card bgcolor="black" sx={{ width: 800, marginBottom: "1rem" }}>
-      <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            {props.name != null && props.name.charAt(0).toUpperCase()}
-          </Avatar>
-        }
-}
-        title={props.name + " " + props.lastName}
-      />
+            <CardContent>
+                <Typography variant="body2" color="text.secondary">
+                    {props.content}
+                </Typography>
+            </CardContent>
+            <CardActions disableSpacing>
+                <IconButton aria-label="add to favorites">
+                    <FavoriteIcon
+                        onClick={handleFavorite}
+                        style={liked ? { color: "red" } : null}
+                    />
+                </IconButton>
 
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          {props.content}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <CommentIcon />
-        </ExpandMore>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent> </CardContent>
-      </Collapse>
-    </Card>
-  );
+                <ExpandMore
+                    expand={expanded}
+                    onClick={handleExpandClick}
+                    aria-expanded={expanded}
+                    aria-label="show more"
+                >
+                    <CommentIcon />
+                </ExpandMore>
+            </CardActions>
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <CardContent> </CardContent>
+            </Collapse>
+        </Card>
+    );
 }
