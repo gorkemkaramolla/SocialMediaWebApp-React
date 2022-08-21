@@ -5,7 +5,8 @@ import Row from "react-bootstrap/Row";
 
 import Container from "react-bootstrap/Container";
 import { useState, useEffect } from "react";
-import PostCard from "../Cards/PostCard";
+import PostCard from "../PostComponents/PostCard";
+import PostForm from "../PostComponents/PostForm";
 export default function Home() {
     const [error, setError] = useState(null);
     const [isLoaded, setisLoaded] = useState(false);
@@ -32,6 +33,7 @@ export default function Home() {
     } else {
         return (
             <Container>
+                <PostForm></PostForm>
                 {postList.map((element) => (
                     <Row style={{ justifyContent: "center" }}>
                         <PostCard
