@@ -7,6 +7,7 @@ import Container from "react-bootstrap/Container";
 import { useState, useEffect } from "react";
 import PostCard from "../PostComponents/PostCard";
 import PostForm from "../PostComponents/PostForm";
+import "./Home.scss";
 export default function Home() {
     const [error, setError] = useState(null);
     const [isLoaded, setisLoaded] = useState(false);
@@ -32,10 +33,10 @@ export default function Home() {
         return <div>Error</div>;
     } else {
         return (
-            <Container>
-                <PostForm title="gorkem karamolla"></PostForm>
+            <div className="container">
+                <PostForm writerId={1}></PostForm>
                 {postList.map((element) => (
-                    <Row style={{ justifyContent: "center" }}>
+                    <div className="row d-flex justify-content-center">
                         <PostCard
                             writerId={element.userId}
                             lastName={element.lastName}
@@ -43,9 +44,9 @@ export default function Home() {
                             title={element.title}
                             content={element.content}
                         ></PostCard>
-                    </Row>
+                    </div>
                 ))}
-            </Container>
+            </div>
         );
     }
 }

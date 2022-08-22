@@ -8,13 +8,37 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import TextField from "@mui/material/TextField";
+import { useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import { Link } from "react-router-dom";
-import "./Postcard.scss";
-
 export default function PostForm(props) {
+    const handleSubmit = () => {
+        savePost();
+    };
+    const handleTitle = (value) => {
+        setTitle(value);
+    };
+    const handleContent = (value) => {
+        setContent(value);
+    };
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+
+    const savePost = () => {
+        fetch("/posts", {
+            method: "POST",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify({
+                title: title,
+                writerId: 1,
+                content: content,
+            }),
+        })
+            .then((res) => res.json())
+            .catch((err) => console.log(err));
+    };
     return (
-        <Card sx={{ width: 800, marginBottom: "1rem" }}>
+        <Card sx={{ width: 500, marginBottom: "1rem" }}>
             <CardHeader
                 avatar={
                     <Link
@@ -35,13 +59,16 @@ export default function PostForm(props) {
             />
 
             <CardContent>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body1" color="text.secondary">
                     {
                         <TextField
+                            onChange={(title) => {
+                                handleTitle(title.target.value);
+                            }}
                             className="input-container"
                             fullWidth
                             multiline
-                            label="Post Content"
+                            label="Title"
                             inputProps={{ maxLength: 250 }}
                         ></TextField>
                     }
@@ -53,6 +80,9 @@ export default function PostForm(props) {
                 >
                     {
                         <TextField
+                            onChange={(content) => {
+                                handleContent(content.target.value);
+                            }}
                             className="input-container"
                             fullWidth
                             multiline
@@ -64,7 +94,7 @@ export default function PostForm(props) {
             </CardContent>
             <CardActions disableSpacing>
                 <IconButton aria-label="Post">
-                    <SendIcon position="end"></SendIcon>
+                    <SendIcon onClick={handleSubmit} position="end"></SendIcon>
                 </IconButton>
             </CardActions>
         </Card>

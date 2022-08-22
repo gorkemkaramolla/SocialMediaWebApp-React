@@ -11,9 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+
 import { Link } from "react-router-dom";
 import "./Postcard.scss";
 
@@ -39,7 +37,7 @@ export default function PostCard(props) {
     };
 
     return (
-        <Card sx={{ width: 800, marginBottom: "1rem" }}>
+        <Card sx={{ width: 500, marginBottom: "1rem" }}>
             <CardHeader
                 avatar={
                     <Link
@@ -60,8 +58,8 @@ export default function PostCard(props) {
                 subheader={props.title}
             />
 
-            <CardContent>
-                <Typography variant="body2" color="text.secondary">
+            <CardContent className="alter-border">
+                <Typography align="left" variant="body1" color="text.secondary">
                     {props.content}
                 </Typography>
             </CardContent>
