@@ -31,22 +31,29 @@ export default function PostForm(props) {
                         </Avatar>
                     </Link>
                 }
-                title={
-                    <TextField
-                        id="outlined-adornment-amount"
-                        multiline
-                        label="Title"
-                        fullWidth
-                        inputProps={{ maxLength: 25 }}
-                    ></TextField>
-                }
-                subheader={props.title}
+                title={props.title}
             />
 
             <CardContent>
                 <Typography variant="body2" color="text.secondary">
                     {
                         <TextField
+                            className="input-container"
+                            fullWidth
+                            multiline
+                            label="Post Content"
+                            inputProps={{ maxLength: 250 }}
+                        ></TextField>
+                    }
+                </Typography>
+                <Typography
+                    className="input-container"
+                    variant="body2"
+                    color="text.secondary"
+                >
+                    {
+                        <TextField
+                            className="input-container"
                             fullWidth
                             multiline
                             label="Post Content"

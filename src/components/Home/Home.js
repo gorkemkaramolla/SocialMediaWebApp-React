@@ -33,7 +33,7 @@ export default function Home() {
     } else {
         return (
             <Container>
-                <PostForm></PostForm>
+                <PostForm title="gorkem karamolla"></PostForm>
                 {postList.map((element) => (
                     <Row style={{ justifyContent: "center" }}>
                         <PostCard
