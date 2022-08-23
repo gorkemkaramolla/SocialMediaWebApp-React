@@ -59,7 +59,13 @@ export default function PostCard(props) {
             />
 
             <CardContent className="alter-border">
-                <Typography align="left" variant="body1" color="text.secondary">
+                <Typography
+                    multiline
+                    noWrap={false}
+                    align="left"
+                    variant="body1"
+                    color="text.secondary"
+                >
                     {props.content}
                 </Typography>
             </CardContent>
