@@ -13,7 +13,7 @@ export default function Home() {
     const [isLoaded, setisLoaded] = useState(false);
     const [postList, setPostList] = useState([]);
 
-    useEffect(() => {
+    const refreshPost = () => {
         fetch("/posts", { method: "GET" })
             .then((response) => response.json())
             .then(
@@ -28,13 +28,22 @@ export default function Home() {
                     setError(error);
                 }
             );
-    }, []);
+    };
+
+    useEffect(() => {
+        refreshPost();
+    }, [postList.length]);
     if (error) {
         return <div>Error</div>;
     } else {
         return (
             <div className="container">
-                <PostForm writerId={1}></PostForm>
+                <PostForm
+                    name="Görkem"
+                    lastName="karamolla"
+                    writerId={1}
+                    refreshPost={refreshPost}
+                ></PostForm>
                 {postList.map((element) => (
                     <div className="row d-flex justify-content-center">
                         <PostCard
