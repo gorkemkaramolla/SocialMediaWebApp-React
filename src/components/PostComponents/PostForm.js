@@ -11,9 +11,13 @@ import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import { Link } from "react-router-dom";
+import ModalError from "../Errors/ModalError";
 export default function PostForm(props) {
     const handleSubmit = () => {
         savePost();
+        setTitle("");
+        setContent("");
+        props.refreshPost();
     };
     const handleTitle = (value) => {
         setTitle(value);
@@ -37,6 +41,7 @@ export default function PostForm(props) {
             .then((res) => res.json())
             .catch((err) => console.log(err));
     };
+
     return (
         <Card sx={{ width: 500, marginBottom: "1rem" }}>
             <CardHeader
@@ -55,21 +60,21 @@ export default function PostForm(props) {
                         </Avatar>
                     </Link>
                 }
-                title={props.title}
+                title={props.name + " " + props.lastName}
             />
 
             <CardContent>
                 <Typography variant="body1" color="text.secondary">
                     {
                         <TextField
+                            value={title}
                             onChange={(title) => {
                                 handleTitle(title.target.value);
                             }}
                             className="input-container"
                             fullWidth
-                            multiline
                             label="Title"
-                            inputProps={{ maxLength: 250 }}
+                            inputProps={{ maxLength: 45 }}
                         ></TextField>
                     }
                 </Typography>
@@ -80,6 +85,7 @@ export default function PostForm(props) {
                 >
                     {
                         <TextField
+                            value={content}
                             onChange={(content) => {
                                 handleContent(content.target.value);
                             }}
