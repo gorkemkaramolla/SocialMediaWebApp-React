@@ -11,7 +11,8 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-
+import Comment from "./Comments/Comment";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Postcard.scss";
 
@@ -29,11 +30,27 @@ const ExpandMore = styled((props) => {
 export default function PostCard(props) {
     const [expanded, setExpanded] = React.useState(false);
     const [liked, setLiked] = React.useState(false);
+    const [comments, setComments] = useState([]);
     const handleExpandClick = () => {
         setExpanded(!expanded);
+        !expanded && getComments();
     };
     const handleFavorite = () => {
         setLiked(!liked);
+    };
+
+    const getComments = () => {
+        fetch("/comments", { method: "GET" })
+            .then((res) => res.json())
+            .then(
+                (result) => {
+                    setComments(result);
+                    console.log(result);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
     };
 
     return (
@@ -83,11 +100,16 @@ export default function PostCard(props) {
                     aria-expanded={expanded}
                     aria-label="show more"
                 >
-                    <CommentIcon />
+                    <CommentIcon></CommentIcon>
                 </ExpandMore>
             </CardActions>
+
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent> </CardContent>
+                {comments.map((element) => (
+                    <div className="row d-flex justify-content-center">
+                        <Comment comment={element.comment}></Comment>
+                    </div>
+                ))}
             </Collapse>
         </Card>
     );
