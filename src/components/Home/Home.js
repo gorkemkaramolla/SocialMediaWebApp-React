@@ -1,54 +1,53 @@
 import React from "react";
 import Post from "../Post";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import PostCard from "../PostComponents/PostCard";
 import PostForm from "../PostComponents/PostForm";
 import "./Home.scss";
 export default function Home() {
-  const [error, setError] = useState(null);
-  const [postList, setPostList] = useState([]);
-  const [length, setLength] = useState(0);
+    const [error, setError] = useState(null);
+    const [postList, setPostList] = useState([]);
 
-  const refreshPost = (lengthFromChild) => {
-    setLength(lengthFromChild);
-    axios
-      .get("/posts")
-      .then((response) => {
-        setPostList(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+    const refreshPost = () => {
+        axios
+            .get("/posts")
+            .then((response) => {
+                setPostList(response.data);
+            })
+            .catch((error) => {
+                setError(error);
+                console.log(error);
+            });
+    };
+    useEffect(() => {
+        refreshPost();
+    }, []);
 
-  useEffect(() => {
-    refreshPost();
-  }, [length]);
-  if (error) {
-    return <div>Error</div>;
-  } else {
-    return (
-      <div className="container">
-        <PostForm
-          name="Görkem"
-          lastName="karamolla"
-          writerId={1}
-          refreshPost={refreshPost}
-        ></PostForm>
-        {postList.map((element) => (
-          <div className="row d-flex justify-content-center">
-            <PostCard
-              postId={element.postId}
-              writerId={element.userId}
-              lastName={element.lastName}
-              name={element.name}
-              title={element.title}
-              content={element.content}
-            ></PostCard>
-          </div>
-        ))}
-      </div>
-    );
-  }
+    if (error) {
+        return <div>Error</div>;
+    } else {
+        return (
+            <div className="container">
+                <PostForm
+                    name="Görkem"
+                    lastName="karamolla"
+                    writerId={1}
+                    refreshPost={refreshPost}
+                ></PostForm>
+                {postList.map((element) => (
+                    <div className="row d-flex justify-content-center">
+                        <PostCard
+                            postId={element.postId}
+                            writerId={element.userId}
+                            lastName={element.lastName}
+                            name={element.name}
+                            title={element.title}
+                            content={element.content}
+                        ></PostCard>
+                    </div>
+                ))}
+            </div>
+        );
+    }
 }
