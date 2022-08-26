@@ -1,5 +1,4 @@
 import React from "react";
-import Post from "../Post";
 import axios from "axios";
 import { useState, useEffect, useRef, useCallback } from "react";
 import PostCard from "../PostComponents/PostCard";
@@ -38,7 +37,7 @@ export default function Home() {
                 {postList.map((element) => (
                     <div className="row d-flex justify-content-center">
                         <PostCard
-                            postId={element.postId}
+                            postId={element.id}
                             writerId={element.userId}
                             lastName={element.lastName}
                             name={element.name}
