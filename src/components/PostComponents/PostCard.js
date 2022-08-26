@@ -13,11 +13,14 @@ import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import axios from "axios";
 import Comment from "./Comments/Comment";
+import TextField from "@mui/material/TextField";
+import SendIcon from "@mui/icons-material/Send";
 import { useState, useRef, useEffect } from "react";
 
 import { Link } from "react-router-dom";
 
 import "./Postcard.scss";
+import { InputAdornment } from "@mui/material";
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -73,7 +76,11 @@ export default function PostCard(props) {
         return <div>Loading...</div>;
     } else
         return (
-            <Card sx={{ width: 500, marginBottom: "1rem" }}>
+            <Card
+                sx={{
+                    marginBottom: "1rem",
+                }}
+            >
                 <CardHeader
                     avatar={
                         <Link
@@ -92,7 +99,6 @@ export default function PostCard(props) {
                     title={name + " " + lastName}
                     subheader={title}
                 />
-
                 <CardContent className="alter-border">
                     <Typography
                         multiline
@@ -123,13 +129,30 @@ export default function PostCard(props) {
                 </CardActions>
 
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
+                    <div style={{ textAlign: "center" }}>
+                        <div class="input-group p-3">
+                            <textarea
+                                style={{ resize: "none" }}
+                                placeholder="What do you think"
+                                class="form-control "
+                                id="exampleFormControlTextarea2"
+                                rows="2"
+                            ></textarea>
+                            <div class="input-group-addon align-self-center ">
+                                <IconButton>
+                                    <SendIcon></SendIcon>
+                                </IconButton>
+                            </div>
+                        </div>
+                    </div>
+                    All comments for this post
                     {comments.map((comment) => (
                         <div className="row d-flex justify-content-center">
                             <Comment
                                 comment={comment.comment}
                                 postId={comment.postId}
                                 writerId={1}
-                                name={"User"}
+                                name={"Görkem Karamolla"}
                             ></Comment>
                         </div>
                     ))}
