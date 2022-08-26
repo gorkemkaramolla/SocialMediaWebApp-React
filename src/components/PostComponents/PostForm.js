@@ -11,7 +11,9 @@ import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import { Link } from "react-router-dom";
+import Grid from "@mui/material/Unstable_Grid2";
 import SuccessMessage from "../Errors/SuccessMessage";
+
 export default function PostForm(props) {
     const [sent, setSent] = useState(false);
     const [title, setTitle] = useState("");
@@ -59,8 +61,11 @@ export default function PostForm(props) {
                     color="success"
                 ></SuccessMessage>
             )}
-
-            <Card sx={{ width: 500, marginBottom: "1rem" }}>
+            <Card
+                sx={{
+                    marginBottom: "1rem",
+                }}
+            >
                 <CardHeader
                     avatar={
                         <Link
