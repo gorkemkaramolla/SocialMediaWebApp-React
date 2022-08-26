@@ -28,24 +28,44 @@ export default function Home() {
     } else {
         return (
             <div className="container">
-                <PostForm
-                    name="Görkem"
-                    lastName="karamolla"
-                    writerId={1}
-                    refreshPost={refreshPost}
-                ></PostForm>
-                {postList.map((element) => (
-                    <div className="row d-flex justify-content-center">
-                        <PostCard
-                            postId={element.id}
-                            writerId={element.userId}
-                            lastName={element.lastName}
-                            name={element.name}
-                            title={element.title}
-                            content={element.content}
-                        ></PostCard>
+                <div
+                    className="row d-flex justify-content-center"
+                    style={{
+                        minWidth: "360px",
+                        padding: "30px",
+                        borderRadius: "20px",
+                        background: "#cfd3",
+                    }}
+                >
+                    <div className="d-flex flex-column justify-content-center ">
+                        <div
+                            style={{ minWidth: "350px" }}
+                            className="col-lg-6 col-xs-fluid align-self-center"
+                        >
+                            <PostForm
+                                name="Görkem"
+                                lastName="karamolla"
+                                writerId={1}
+                                refreshPost={refreshPost}
+                            ></PostForm>
+                        </div>
+                        {postList.map((element) => (
+                            <div
+                                style={{ minWidth: "350px" }}
+                                className="col-lg-6 col-xs-12 align-self-center  "
+                            >
+                                <PostCard
+                                    postId={element.id}
+                                    writerId={element.userId}
+                                    lastName={element.lastName}
+                                    name={element.name}
+                                    title={element.title}
+                                    content={element.content}
+                                ></PostCard>
+                            </div>
+                        ))}
                     </div>
-                ))}
+                </div>
             </div>
         );
     }
