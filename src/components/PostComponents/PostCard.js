@@ -1,4 +1,5 @@
 import * as React from "react";
+import "./Postcard.scss";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -9,18 +10,14 @@ import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
+import { blueGrey } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import axios from "axios";
 import Comment from "./Comments/Comment";
-import TextField from "@mui/material/TextField";
-import SendIcon from "@mui/icons-material/Send";
-import { useState, useRef, useEffect } from "react";
-
+import CommentForm from "./Comments/CommentForm";
+import { useState, useRef, useEffect, useReducer } from "react";
+import { INITIAL_STATE, postReducer } from "./postReducer";
 import { Link } from "react-router-dom";
-
-import "./Postcard.scss";
-import { InputAdornment } from "@mui/material";
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -36,49 +33,51 @@ const ExpandMore = styled((props) => {
 export default function PostCard(props) {
     const [expanded, setExpanded] = useState(false);
     const [liked, setLiked] = useState(false);
-    const [comments, setComments] = useState([]);
-    const [error, setError] = useState("");
     const isMounted = useRef(false);
-    const [loading, setLoading] = useState(false);
     const { writerId, postId, lastName, name, content, title } = props;
+    const [refreshComments, setRefreshComments] = useState(true);
+
+    const [state, dispatch] = useReducer(postReducer, INITIAL_STATE);
+
     const handleExpandClick = () => {
         setExpanded(!expanded);
         getComments();
     };
+
     const handleFavorite = () => {
         setLiked(!liked);
     };
-
+    const setCommentRefresh = () => {
+        setRefreshComments(true);
+    };
     const getComments = () => {
         const url = "http://localhost:8080";
         axios
             .get(url + "/comments?postId=" + postId)
             .then((response) => {
-                setLoading(true);
-                setComments(response.data);
+                dispatch({ type: "FETCH_SUCCESS", payload: response.data });
             })
             .catch((error) => {
-                setLoading(true);
-
-                console.log(error);
-                setError(error);
+                dispatch({ type: "FETCH_ERROR" });
             });
+        setRefreshComments(false);
     };
 
     useEffect(() => {
-        if (isMounted.current) {
-            isMounted.current = false;
-        } else getComments();
-    }, []);
-    if (error) {
+        if (isMounted.current) isMounted.current = false;
+        else getComments();
+    }, [refreshComments]);
+
+    if (state.error) {
         return <div>ERROR</div>;
-    } else if (!loading) {
+    } else if (!state.loading) {
         return <div>Loading...</div>;
     } else
         return (
             <Card
                 sx={{
                     marginBottom: "1rem",
+                    borderRadius: 3,
                 }}
             >
                 <CardHeader
@@ -89,7 +88,7 @@ export default function PostCard(props) {
                         >
                             <Avatar
                                 className="avatar-mui"
-                                sx={{ bgcolor: red[500] }}
+                                sx={{ bgcolor: blueGrey[500] }}
                                 aria-label="recipe"
                             >
                                 {name != null && name.charAt(0).toUpperCase()}
@@ -129,24 +128,14 @@ export default function PostCard(props) {
                 </CardActions>
 
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    <div style={{ textAlign: "center" }}>
-                        <div class="input-group p-3">
-                            <textarea
-                                style={{ resize: "none" }}
-                                placeholder="What do you think"
-                                class="form-control "
-                                id="exampleFormControlTextarea2"
-                                rows="2"
-                            ></textarea>
-                            <div class="input-group-addon align-self-center ">
-                                <IconButton>
-                                    <SendIcon></SendIcon>
-                                </IconButton>
-                            </div>
-                        </div>
-                    </div>
+                    <CommentForm
+                        setCommentRefresh={setCommentRefresh}
+                        name={"Görkem Karamolla"}
+                        postId={postId}
+                        writerId={1}
+                    ></CommentForm>
                     All comments for this post
-                    {comments.map((comment) => (
+                    {state.comments.map((comment) => (
                         <div className="row d-flex justify-content-center">
                             <Comment
                                 comment={comment.comment}
