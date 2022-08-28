@@ -4,17 +4,21 @@ import { useEffect, useReducer } from "react";
 import PostCard from "../PostComponents/PostCard";
 import PostForm from "../PostComponents/PostForm";
 import "./Home.scss";
-import { homeReducer, INITIAL_STATE } from "./homeReducer";
+import { homeReducer, INITIAL_STATE } from "./homeReducers/homeReducer";
+import { ACTION_TYPES } from "./homeReducers/homeActionTypes";
 export default function Home() {
     const [state, dispatch] = useReducer(homeReducer, INITIAL_STATE);
     const refreshPost = async () => {
         await axios
             .get("/posts")
             .then((response) => {
-                dispatch({ type: "FETCH_SUCCESS", payload: response.data });
+                dispatch({
+                    type: ACTION_TYPES.success,
+                    payload: response.data,
+                });
             })
             .catch((error) => {
-                dispatch({ type: "FETCH_ERROR" });
+                dispatch({ type: ACTION_TYPES.error });
 
                 console.log(error);
             });

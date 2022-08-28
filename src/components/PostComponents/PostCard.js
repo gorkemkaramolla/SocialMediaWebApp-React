@@ -13,10 +13,11 @@ import Typography from "@mui/material/Typography";
 import { blueGrey } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import axios from "axios";
-import Comment from "./Comments/Comment";
-import CommentForm from "./Comments/CommentForm";
+import Comment from "./PostComments/Comment";
+import CommentForm from "./PostComments/CommentForm";
 import { useState, useRef, useEffect, useReducer } from "react";
-import { INITIAL_STATE, postReducer } from "./postReducer";
+import { INITIAL_STATE, postReducer } from "./PostReducers/postReducer";
+import { ACTION_TYPES } from "./PostReducers/postActionTypes";
 import { Link } from "react-router-dom";
 
 const ExpandMore = styled((props) => {
@@ -55,10 +56,13 @@ export default function PostCard(props) {
         axios
             .get(url + "/comments?postId=" + postId)
             .then((response) => {
-                dispatch({ type: "FETCH_SUCCESS", payload: response.data });
+                dispatch({
+                    type: ACTION_TYPES.success,
+                    payload: response.data,
+                });
             })
             .catch((error) => {
-                dispatch({ type: "FETCH_ERROR" });
+                dispatch({ type: ACTION_TYPES.error });
             });
         setRefreshComments(false);
     };
