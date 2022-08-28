@@ -4,29 +4,31 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
+import Button from "@mui/material/Button";
+import { teal } from "@mui/material/colors";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import { Link } from "react-router-dom";
-import Grid from "@mui/material/Unstable_Grid2";
 import SuccessMessage from "../Errors/SuccessMessage";
+import FormControl from "@mui/material/FormControl";
 
 export default function PostForm(props) {
     const [sent, setSent] = useState(false);
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+    const { name, lastName, refreshPost, writerId } = props;
+
     const handleSubmit = () => {
         if (title && content !== "") {
             savePost();
             setSent(true);
-
-            props.refreshPost();
         }
         setTitle("");
         setContent("");
+        setTimeout(() => {
+            refreshPost();
+        }, 500);
     };
 
     const handleTitle = (value) => {
@@ -64,69 +66,87 @@ export default function PostForm(props) {
             <Card
                 sx={{
                     marginBottom: "1rem",
+                    borderRadius: 3,
                 }}
             >
                 <CardHeader
                     avatar={
                         <Link
                             className="avatar-link"
-                            to={{ pathname: "/writers/" + props.writerId }}
+                            to={{ pathname: "/writers/" + writerId }}
                         >
                             <Avatar
                                 className="avatar-mui"
-                                sx={{ bgcolor: red[500] }}
+                                sx={{ bgcolor: teal[500] }}
                                 aria-label="recipe"
                             >
-                                {props.name != null &&
-                                    props.name.charAt(0).toUpperCase()}
+                                {name != null && name.charAt(0).toUpperCase()}
                             </Avatar>
                         </Link>
                     }
-                    title={props.name + " " + props.lastName}
+                    title={name + " " + lastName}
                 />
 
-                <CardContent>
-                    <Typography variant="body1" color="text.secondary">
-                        {
-                            <TextField
-                                value={title}
-                                onChange={(title) => {
-                                    handleTitle(title.target.value);
-                                }}
-                                className="input-container"
-                                fullWidth
-                                label="Title"
-                                inputProps={{ maxLength: 45 }}
-                            ></TextField>
-                        }
-                    </Typography>
-                    <Typography
-                        className="input-container"
-                        variant="body2"
-                        color="text.secondary"
+                <CardContent className="d-flex justify-content-center flex-wrap">
+                    <FormControl
+                        sx={{
+                            paddingLeft: 1,
+                            marginBottom: 1,
+                            width: "95%",
+                            textAlign: "left",
+                            borderRadius: "0px 10px",
+                            background: "#f0f2f5",
+                        }}
                     >
-                        {
-                            <TextField
-                                value={content}
-                                onChange={(content) => {
-                                    handleContent(content.target.value);
-                                }}
-                                className="input-container"
-                                fullWidth
-                                multiline
-                                label="Post Content"
-                                inputProps={{ maxLength: 250 }}
-                            ></TextField>
-                        }
-                    </Typography>
+                        <TextField
+                            onChange={(e) => {
+                                handleTitle(e.target.value);
+                            }}
+                            value={title}
+                            variant="standard"
+                            multiline
+                            placeholder={"Title"}
+                            inputProps={{ maxLength: 55 }}
+                            InputProps={{
+                                disableUnderline: true, // <== added this
+                            }}
+                        ></TextField>
+                    </FormControl>
+                    <FormControl
+                        sx={{
+                            paddingLeft: 1,
+                            width: "95%",
+                            textAlign: "left",
+                            borderRadius: "0px 10px ",
+
+                            background: "#f0f2f5",
+                        }}
+                    >
+                        <TextField
+                            onChange={(e) => {
+                                handleContent(e.target.value);
+                            }}
+                            value={content}
+                            variant="standard"
+                            multiline
+                            placeholder={"Content"}
+                            inputProps={{ maxLength: 250 }}
+                            InputProps={{
+                                disableUnderline: true, // <== added this
+                            }}
+                        ></TextField>
+                    </FormControl>
                 </CardContent>
-                <CardActions disableSpacing>
-                    <IconButton aria-label="Post">
-                        <SendIcon
-                            onClick={handleSubmit}
-                            position="end"
-                        ></SendIcon>
-                    </IconButton>
+                <CardActions disableSpacing sx={{ float: "right" }}>
+                    <Button
+                        size="small"
+                        variant="text"
+                        color="primary"
+                        endIcon={<SendIcon />}
+                        onClick={handleSubmit}
+                    >
+                        Send
+                    </Button>
                 </CardActions>
             </Card>
         </div>
