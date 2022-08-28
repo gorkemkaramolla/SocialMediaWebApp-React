@@ -1,21 +1,21 @@
 import React from "react";
 import axios from "axios";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useEffect, useReducer } from "react";
 import PostCard from "../PostComponents/PostCard";
 import PostForm from "../PostComponents/PostForm";
 import "./Home.scss";
+import { homeReducer, INITIAL_STATE } from "./homeReducer";
 export default function Home() {
-    const [error, setError] = useState(null);
-    const [postList, setPostList] = useState([]);
-
-    const refreshPost = () => {
-        axios
+    const [state, dispatch] = useReducer(homeReducer, INITIAL_STATE);
+    const refreshPost = async () => {
+        await axios
             .get("/posts")
             .then((response) => {
-                setPostList(response.data);
+                dispatch({ type: "FETCH_SUCCESS", payload: response.data });
             })
             .catch((error) => {
-                setError(error);
+                dispatch({ type: "FETCH_ERROR" });
+
                 console.log(error);
             });
     };
@@ -23,8 +23,10 @@ export default function Home() {
         refreshPost();
     }, []);
 
-    if (error) {
+    if (state.error) {
         return <div>Error</div>;
+    } else if (!state.loading) {
+        return <div>Loading...</div>;
     } else {
         return (
             <div className="container">
@@ -49,10 +51,10 @@ export default function Home() {
                                 refreshPost={refreshPost}
                             ></PostForm>
                         </div>
-                        {postList.map((element) => (
+                        {state.postList.map((element) => (
                             <div
                                 style={{ minWidth: "350px" }}
-                                className="col-lg-6 col-xs-12 align-self-center  "
+                                className="col-lg-6 col-md-6 col-xs-6 col-sm-6 col-xxl-6 col-6 align-self-center  "
                             >
                                 <PostCard
                                     postId={element.id}
