@@ -35,22 +35,72 @@ export default function PostCard(props) {
     const [expanded, setExpanded] = useState(false);
     const [liked, setLiked] = useState(false);
     const isMounted = useRef(false);
-    const { writerId, postId, lastName, name, content, title } = props;
+
+    const { postLikes, writerId, postId, lastName, name, content, title } =
+        props;
     const [refreshComments, setRefreshComments] = useState(true);
 
     const [state, dispatch] = useReducer(postReducer, INITIAL_STATE);
-
+    const [likeCount, setLikeCount] = useState(postLikes.length);
+    const [likeId, setLikeId] = useState();
     const handleExpandClick = () => {
         setExpanded(!expanded);
         getComments();
     };
 
+    const likedOrNot = () => {
+        const likeControl = postLikes.find((like) => {
+            return like.userId === writerId;
+        });
+        console.log(likeControl);
+
+        if (likeControl != null) {
+            setLikeId(likeControl.id);
+            setLiked(true);
+        } else {
+            setLiked(false);
+        }
+    };
+    useEffect(() => {
+        likedOrNot();
+    }, []);
     const handleFavorite = () => {
         setLiked(!liked);
+        if (liked) {
+            setLikeCount(likeCount - 1);
+            deleteLike();
+        } else {
+            setLikeCount(likeCount + 1);
+            sendLike();
+        }
     };
     const setCommentRefresh = () => {
         setRefreshComments(true);
     };
+    const deleteLike = () => {
+        axios
+            .delete("/postlikes/" + likeId)
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+    const sendLike = () => {
+        axios
+            .post("/postlikes", {
+                postId: postId,
+                writerId: writerId,
+            })
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
     const getComments = () => {
         const url = "http://localhost:8080";
         axios
@@ -63,6 +113,7 @@ export default function PostCard(props) {
             })
             .catch((error) => {
                 dispatch({ type: ACTION_TYPES.error });
+                console.log(error);
             });
         setRefreshComments(false);
     };
@@ -114,12 +165,20 @@ export default function PostCard(props) {
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites">
-                        <FavoriteIcon
-                            onClick={handleFavorite}
-                            style={liked ? { color: "red" } : null}
-                        />
-                    </IconButton>
+                    <div className="d-flex justify-content-end">
+                        <IconButton aria-label="add to favorites">
+                            <FavoriteIcon
+                                onClick={handleFavorite}
+                                style={liked ? { color: "red" } : null}
+                            />
+                        </IconButton>
+                        <div
+                            style={{ fontSize: "1em" }}
+                            className="align-self-center "
+                        >
+                            {likeCount}
+                        </div>
+                    </div>
 
                     <ExpandMore
                         expand={expanded}

@@ -16,6 +16,7 @@ export default function Home() {
                     type: ACTION_TYPES.success,
                     payload: response.data,
                 });
+                console.log(response.data);
             })
             .catch((error) => {
                 dispatch({ type: ACTION_TYPES.error });
@@ -67,6 +68,7 @@ export default function Home() {
                                     name={element.name}
                                     title={element.title}
                                     content={element.content}
+                                    postLikes={element.postLikes}
                                 ></PostCard>
                             </div>
                         ))}
