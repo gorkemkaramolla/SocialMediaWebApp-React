@@ -15,7 +15,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import axios from "axios";
 import Comment from "./PostComments/Comment";
 import CommentForm from "./PostComments/CommentForm";
-import { useState, useRef, useEffect, useReducer } from "react";
+import { useState, useRef, useEffect, useReducer, useCallback } from "react";
 import { INITIAL_STATE, postReducer } from "./PostReducers/postReducer";
 import { ACTION_TYPES } from "./PostReducers/postActionTypes";
 import { Link } from "react-router-dom";
@@ -45,7 +45,7 @@ export default function PostCard(props) {
     const [likeId, setLikeId] = useState();
     const handleExpandClick = () => {
         setExpanded(!expanded);
-        getComments();
+        if (!expanded) getComments();
     };
 
     const likedOrNot = () => {
@@ -101,7 +101,7 @@ export default function PostCard(props) {
             });
     };
 
-    const getComments = () => {
+    const getComments = useCallback(() => {
         const url = "http://localhost:8080";
         axios
             .get(url + "/comments?postId=" + postId)
@@ -116,12 +116,12 @@ export default function PostCard(props) {
                 console.log(error);
             });
         setRefreshComments(false);
-    };
+    }, [postId]);
 
     useEffect(() => {
         if (isMounted.current) isMounted.current = false;
         else getComments();
-    }, [refreshComments]);
+    }, [getComments, refreshComments]);
 
     if (state.error) {
         return <div>ERROR</div>;
@@ -191,23 +191,26 @@ export default function PostCard(props) {
                 </CardActions>
 
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
+                    {}
                     <CommentForm
                         setCommentRefresh={setCommentRefresh}
                         name={"Görkem Karamolla"}
                         postId={postId}
                         writerId={1}
                     ></CommentForm>
-                    All comments for this post
-                    {state.comments.map((comment) => (
-                        <div className="row d-flex justify-content-center">
-                            <Comment
-                                comment={comment.comment}
-                                postId={comment.postId}
-                                writerId={1}
-                                name={"Görkem Karamolla"}
-                            ></Comment>
-                        </div>
-                    ))}
+                    <p> All comments for this post</p>
+                    {state.loading
+                        ? state.comments.map((comment) => (
+                              <div className="row d-flex justify-content-center">
+                                  <Comment
+                                      comment={comment.comment}
+                                      postId={comment.postId}
+                                      writerId={1}
+                                      name={"Görkem Karamolla"}
+                                  ></Comment>
+                              </div>
+                          ))
+                        : "Loading"}
                 </Collapse>
             </Card>
         );
