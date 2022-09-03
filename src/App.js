@@ -11,12 +11,13 @@ function App() {
         <BrowserRouter>
             <NavBarComponent></NavBarComponent>
             <Routes>
-                <Route exact path="/cards" element={<Register />}></Route>
+                <Route exact path="/cards" element={<Home />}></Route>
                 <Route
                     exact
                     path="/writers/:writerId"
                     element={<Writer />}
                 ></Route>
+                <Route exact path="/register" element={<Register />}></Route>
             </Routes>
         </BrowserRouter>
     );
