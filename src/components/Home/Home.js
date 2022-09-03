@@ -36,18 +36,17 @@ export default function Home() {
         return (
             <div className="container">
                 <div
-                    className="row d-flex justify-content-center"
+                    className="row d-flex justify-content-center home-bg"
                     style={{
                         minWidth: "360px",
                         padding: "30px",
                         borderRadius: "20px",
-                        background: "#cfd3",
                     }}
                 >
                     <div className="d-flex flex-column justify-content-center ">
                         <div
                             style={{ minWidth: "350px" }}
-                            className="col-lg-6 col-xs-fluid align-self-center"
+                            className="col-lg-6 col-md-6 col-xs-6 col-sm-6 col-xxl-6 col-6 col-xs-fluid align-self-center"
                         >
                             <PostForm
                                 name="Görkem"

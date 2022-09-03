@@ -11,10 +11,17 @@ export default function Register() {
             style={{ minHeight: "calc(100vh - 80px)" }}
             className="d-flex flex-column  justify-content-center align-items-center"
         >
-            <div className="container  " style={{ maxWidth: "800px" }}>
+            <div
+                className="container   "
+                style={{
+                    background: "rgb(132, 88, 179,0.1)",
+                    padding: "300px 100px",
+                    maxWidth: "800px",
+                }}
+            >
                 <div className="row">
                     <div className="col-lg-6">
-                        <div className="d-flex flex-column  ">
+                        <div className="d-flex flex-column   ">
                             <TextField
                                 className="mb-3 "
                                 label="email"
