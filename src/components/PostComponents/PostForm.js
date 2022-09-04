@@ -12,6 +12,7 @@ import SendIcon from "@mui/icons-material/Send";
 import { Link } from "react-router-dom";
 import SuccessMessage from "../Errors/SuccessMessage";
 import FormControl from "@mui/material/FormControl";
+import axios from "axios";
 
 export default function PostForm(props) {
     const [sent, setSent] = useState(false);
@@ -41,17 +42,14 @@ export default function PostForm(props) {
     };
 
     const savePost = () => {
-        fetch("/posts", {
-            method: "POST",
-            headers: { "Content-type": "application/json" },
-            body: JSON.stringify({
+        axios
+            .post("/posts", {
                 title: title,
                 writerId: 1,
                 content: content,
-            }),
-        })
-            .then((res) => res.json())
-            .catch((err) => console.log(err));
+            })
+            .then((response) => console.log(response.data))
+            .catch((error) => console.log(error));
     };
 
     return (

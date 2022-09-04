@@ -52,7 +52,6 @@ export default function PostCard(props) {
         const likeControl = postLikes.find((like) => {
             return like.userId === writerId;
         });
-        console.log(likeControl);
 
         if (likeControl != null) {
             setLikeId(likeControl.id);
@@ -64,6 +63,7 @@ export default function PostCard(props) {
     useEffect(() => {
         likedOrNot();
     }, []);
+
     const handleFavorite = () => {
         setLiked(!liked);
         if (liked) {
@@ -78,6 +78,7 @@ export default function PostCard(props) {
         setRefreshComments(true);
     };
     const deleteLike = () => {
+        console.log(likeId);
         axios
             .delete("/postlikes/" + likeId)
             .then((response) => {
