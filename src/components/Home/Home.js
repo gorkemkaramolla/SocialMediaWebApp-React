@@ -24,6 +24,7 @@ export default function Home() {
                 console.log(error);
             });
     };
+
     useEffect(() => {
         refreshPost();
     }, []);

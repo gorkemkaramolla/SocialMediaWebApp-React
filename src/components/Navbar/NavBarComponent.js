@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import "./navbar.scss";
 import Avatar from "@mui/material/Avatar";
 import { BsFillChatFill } from "react-icons/bs";
+import { GiTripleYin } from "react-icons/gi";
 
 function NavbarComponent() {
     const writerId = 5;
@@ -19,12 +20,19 @@ function NavbarComponent() {
             style={{ background: "rgba(199,128, 137, 1)" }}
         >
             <Container fluid className="">
-                <Navbar.Brand href="#home">LearnBook</Navbar.Brand>
+                <Navbar.Brand href="#home">
+                    <GiTripleYin size={30} className="triple-yin"></GiTripleYin>
+                    Chatapp
+                </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto ">
                         <Link className="nav-link" to="/cards">
                             Home
+                        </Link>
+
+                        <Link className="nav-link" to="/register">
+                            Register
                         </Link>
 
                         <NavDropdown
