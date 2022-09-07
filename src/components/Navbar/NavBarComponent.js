@@ -12,32 +12,34 @@ function NavbarComponent() {
     const writerId = 5;
     return (
         <Navbar
-            className="mb-4 navbar-bg  "
             sticky="top"
             collapseOnSelect
             expand="lg"
             variant="dark"
-            style={{ background: "rgba(199,128, 137, 1)" }}
+            style={{
+                background: "rgba(199,128, 137, 1)",
+            }}
         >
             <Container fluid className="">
-                <Navbar.Brand href="#home">
-                    <GiTripleYin size={30} className="triple-yin"></GiTripleYin>
-                    Chatapp
+                <Navbar.Brand style={{}}>
+                    <Link className="nav-link" to="/cards">
+                        <GiTripleYin className="triple-yin align-self-center "></GiTripleYin>
+                        Chatapp
+                    </Link>
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto ">
-                        <Link className="nav-link" to="/cards">
-                            Home
-                        </Link>
-
-                        <Link className="nav-link" to="/register">
-                            Register
-                        </Link>
+                        <Nav.Link href="#">
+                            <Link className="nav-link" to="/register">
+                                Register
+                            </Link>
+                        </Nav.Link>
 
                         <NavDropdown
                             title="Dropdown"
                             id="collasible-nav-dropdown"
+                            className="nav-link"
                         >
                             <NavDropdown.Item href="#action/3.1">
                                 Action
@@ -54,22 +56,7 @@ function NavbarComponent() {
                             </NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
-                    <Nav>
-                        <Link
-                            className="nav-link"
-                            to={{ pathname: "/writers/" + writerId }}
-                        >
-                            <Avatar
-                                alt="G"
-                                src="/static/images/avatar/1.jpg"
-                                sx={{ width: 24, height: 24 }}
-                            />
-                        </Link>
-                        <Nav.Link href="#deets"></Nav.Link>
-                        <Nav.Link eventKey={2} href="#memes">
-                            <BsFillChatFill size={22} />
-                        </Nav.Link>
-                    </Nav>
+                    <Nav></Nav>
                 </Navbar.Collapse>
             </Container>
         </Navbar>
