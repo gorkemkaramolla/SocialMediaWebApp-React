@@ -6,7 +6,6 @@ import Register from "./components/Auth/Register";
 import Login from "./components/Auth/Login";
 import Writer from "./components/Writer/Writer";
 import NavBarComponent from "./components/Navbar/NavBarComponent";
-
 function App() {
     return (
         <BrowserRouter>

@@ -6,7 +6,12 @@ import PostForm from "../PostComponents/PostForm";
 import "./Home.scss";
 import { homeReducer, INITIAL_STATE } from "./homeReducers/homeReducer";
 import { ACTION_TYPES } from "./homeReducers/homeActionTypes";
+import Cookies from "js-cookie";
+
 export default function Home() {
+    const getCookie = () => {
+        console.log(Cookies.get("session"));
+    };
     const [state, dispatch] = useReducer(homeReducer, INITIAL_STATE);
     const refreshPost = async () => {
         await axios
@@ -26,6 +31,7 @@ export default function Home() {
     };
 
     useEffect(() => {
+        getCookie();
         refreshPost();
     }, []);
 
