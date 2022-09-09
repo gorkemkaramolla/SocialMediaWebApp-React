@@ -10,13 +10,23 @@ export default function CommentForm(props) {
     const textArea = useRef(null);
     const [comment, setComment] = useState("");
     const { setCommentRefresh, name, postId } = props;
+    let axiosConfig = {
+        headers: {
+            Authorization:
+                "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjYyNzI0MzMzLCJleHAiOjE2NjMwNjY2NzV9.fk21fVMuydrPOgD1wdLtxV8DNARR6FsrK5_rVaacMYzr_VpA8EkjUfe4U292e3kHzX1LOVBJBZgGLOUc_DEgaQ",
+        },
+    };
     const saveComment = () => {
         axios
-            .post("/comments", {
-                writerId: 1,
-                postId: postId,
-                comment: comment,
-            })
+            .post(
+                "/comments",
+                {
+                    writerId: 1,
+                    postId: postId,
+                    comment: comment,
+                },
+                axiosConfig
+            )
             .then((response) => {
                 console.log(response.data);
             })

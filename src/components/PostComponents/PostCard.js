@@ -77,10 +77,16 @@ export default function PostCard(props) {
     const setCommentRefresh = () => {
         setRefreshComments(true);
     };
+    let axiosConfig = {
+        headers: {
+            Authorization:
+                "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjYyNzI0MzMzLCJleHAiOjE2NjMwNjY2NzV9.fk21fVMuydrPOgD1wdLtxV8DNARR6FsrK5_rVaacMYzr_VpA8EkjUfe4U292e3kHzX1LOVBJBZgGLOUc_DEgaQ",
+        },
+    };
     const deleteLike = () => {
         console.log(likeId);
         axios
-            .delete("/postlikes/" + likeId)
+            .delete("/postlikes/" + likeId, axiosConfig)
             .then((response) => {
                 console.log(response);
             })
@@ -90,10 +96,14 @@ export default function PostCard(props) {
     };
     const sendLike = () => {
         axios
-            .post("/postlikes", {
-                postId: postId,
-                writerId: writerId,
-            })
+            .post(
+                "/postlikes",
+                {
+                    postId: postId,
+                    writerId: writerId,
+                },
+                axiosConfig
+            )
             .then((response) => {
                 console.log(response);
             })
@@ -105,7 +115,7 @@ export default function PostCard(props) {
     const getComments = useCallback(() => {
         const url = "http://localhost:8080";
         axios
-            .get(url + "/comments?postId=" + postId)
+            .get(url + "/comments?postId=" + postId, axiosConfig)
             .then((response) => {
                 dispatch({
                     type: ACTION_TYPES.success,

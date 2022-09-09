@@ -13,9 +13,15 @@ export default function Home() {
         console.log(Cookies.get("session"));
     };
     const [state, dispatch] = useReducer(homeReducer, INITIAL_STATE);
+    let axiosConfig = {
+        headers: {
+            Authorization:
+                "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjYyNzI0MzMzLCJleHAiOjE2NjMwNjY2NzV9.fk21fVMuydrPOgD1wdLtxV8DNARR6FsrK5_rVaacMYzr_VpA8EkjUfe4U292e3kHzX1LOVBJBZgGLOUc_DEgaQ",
+        },
+    };
     const refreshPost = async () => {
         await axios
-            .get("/posts")
+            .get("/posts", axiosConfig)
             .then((response) => {
                 dispatch({
                     type: ACTION_TYPES.success,
