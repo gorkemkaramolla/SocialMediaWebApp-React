@@ -1,16 +1,15 @@
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
 export const INITIAL_STATE = {
-    id: 0,
+    writerId: 0,
     message: "",
-    jwt: "",
+    accessToken: "",
 };
 export const loginReducer = (state, action) => {
     switch (action.type) {
         case "FETCH_SUCCESS":
             return {
-                id: action.payload.id,
+                writerId: action.payload.writerId,
                 message: action.payload.message,
+                accessToken: action.payload.accessToken,
             };
         case "FETCH_ERROR":
             return {
