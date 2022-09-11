@@ -9,122 +9,122 @@ import axios from "axios";
 import { loginReducer, INITIAL_STATE } from "./loginReducer/LoginReducers";
 import { ACTION_TYPES } from "./loginReducer/loginActionTypes";
 export default function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [state, dispatch] = useReducer(loginReducer, INITIAL_STATE);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [state, dispatch] = useReducer(loginReducer, INITIAL_STATE);
 
-    const handleEmail = (email) => {
-        setEmail(email);
-    };
-    const handlePassword = (pw) => {
-        setPassword(pw);
-    };
-    const submitForm = () => {
-        axios
-            .post("/auth/login", {
-                email: email,
-                password: password,
-            })
-            .then((response) => {
-                dispatch({
-                    type: ACTION_TYPES.success,
-                    payload: response.data,
-                });
-                localStorage.setItem("user", state.writerId);
-            })
-            .catch((error) => {
-                dispatch({
-                    type: ACTION_TYPES.error,
-                    payload: error,
-                });
-            });
-    };
-    const theme = createTheme({
-        palette: {
-            primary: {
-                main: "rgba(199,128, 137, 1)",
-            },
-        },
-    });
+  const handleEmail = (email) => {
+    setEmail(email);
+  };
+  const handlePassword = (pw) => {
+    setPassword(pw);
+  };
+  const submitForm = () => {
+    axios
+      .post("/auth/login", {
+        email: email,
+        password: password,
+      })
+      .then((response) => {
+        dispatch({
+          type: ACTION_TYPES.success,
+          payload: response.data,
+        });
+        localStorage.setItem("user", response.data.writerId);
+        localStorage.setItem("access", response.data.accessToken);
+      })
+      .catch((error) => {
+        dispatch({
+          type: ACTION_TYPES.error,
+          payload: error,
+        });
+      });
+  };
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "rgba(199,128, 137, 1)",
+      },
+    },
+  });
 
-    return (
-        <div
-            style={{ minHeight: "calc(100vh - 80px)" }}
-            className="d-flex flex-column  justify-content-center align-items-center"
-        >
-            <div className="" style={{ fontFamily: "Brush Script MT" }}>
-                <h1>Login</h1>
-            </div>
-            <div
-                className="container"
-                style={{
-                    padding: "100px 100px",
-                    maxWidth: "800px",
+  return (
+    <div
+      style={{ minHeight: "calc(100vh - 80px)" }}
+      className="d-flex flex-column  justify-content-center align-items-center"
+    >
+      <div className="" style={{ fontFamily: "Brush Script MT" }}>
+        <h1>Login</h1>
+      </div>
+      <div
+        className="container"
+        style={{
+          padding: "100px 100px",
+          maxWidth: "800px",
+        }}
+      >
+        <div className="row">
+          <div className=" ">
+            <div className="d-flex flex-column   ">
+              <TextField
+                value={email}
+                onChange={(e) => {
+                  handleEmail(e.target.value);
                 }}
-            >
-                <div className="row">
-                    <div className=" ">
-                        <div className="d-flex flex-column   ">
-                            <TextField
-                                value={email}
-                                onChange={(e) => {
-                                    handleEmail(e.target.value);
-                                }}
-                                className="mb-3 "
-                                label="Email"
-                            ></TextField>
-                            <TextField
-                                value={password}
-                                onChange={(e) => {
-                                    handlePassword(e.target.value);
-                                }}
-                                className="mb-3 "
-                                label="Password"
-                                type="password"
-                            ></TextField>
-                        </div>
-                        <div className=" align-self-center ">
-                            <div className="d-flex flex-column  ">
-                                <ThemeProvider theme={theme}>
-                                    <LoadingButton
-                                        sx={{
-                                            minHeight: 56,
-                                        }}
-                                        loadingPosition="end"
-                                        endIcon={<SendIcon />}
-                                        variant="contained"
-                                        color="primary"
-                                        onClick={submitForm}
-                                    >
-                                        Submit
-                                    </LoadingButton>
-                                    <div className="d-flex justify-content-start">
-                                        <FormHelperText
-                                            sx={{
-                                                backgroundColor:
-                                                    "rgba(237,239,241,255)",
-                                                fontSize: "16px",
-                                                color: "black",
-                                            }}
-                                        >
-                                            Don't you have an account?
-                                            <Link
-                                                style={{
-                                                    color: "#0095f6",
-                                                }}
-                                                className="nav-link"
-                                                to="/register"
-                                            >
-                                                Go to Register
-                                            </Link>
-                                        </FormHelperText>
-                                    </div>
-                                </ThemeProvider>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                className="mb-3 "
+                label="Email"
+              ></TextField>
+              <TextField
+                value={password}
+                onChange={(e) => {
+                  handlePassword(e.target.value);
+                }}
+                className="mb-3 "
+                label="Password"
+                type="password"
+              ></TextField>
             </div>
+            <div className=" align-self-center ">
+              <div className="d-flex flex-column  ">
+                <ThemeProvider theme={theme}>
+                  <LoadingButton
+                    sx={{
+                      minHeight: 56,
+                    }}
+                    loadingPosition="end"
+                    endIcon={<SendIcon />}
+                    variant="contained"
+                    color="primary"
+                    onClick={submitForm}
+                  >
+                    Submit
+                  </LoadingButton>
+                  <div className="d-flex justify-content-start">
+                    <FormHelperText
+                      sx={{
+                        backgroundColor: "rgba(237,239,241,255)",
+                        fontSize: "16px",
+                        color: "black",
+                      }}
+                    >
+                      Don't you have an account?
+                      <Link
+                        style={{
+                          color: "#0095f6",
+                        }}
+                        className="nav-link"
+                        to="/register"
+                      >
+                        Go to Register
+                      </Link>
+                    </FormHelperText>
+                  </div>
+                </ThemeProvider>
+              </div>
+            </div>
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 }
