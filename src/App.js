@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.scss";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./components/Home/Home";
 import Register from "./components/Auth/Register";
 import Login from "./components/Auth/Login";
@@ -11,10 +11,10 @@ function App() {
         <BrowserRouter>
             <NavBarComponent></NavBarComponent>
             <Routes>
-                <Route exact path="/cards" element={<Home />}></Route>
+                <Route exact path="/" element={<Home />}></Route>
                 <Route
                     exact
-                    path="/writers/:writerId"
+                    path="/profile/:writerId"
                     element={<Writer />}
                 ></Route>
                 <Route exact path="/register" element={<Register />}></Route>
