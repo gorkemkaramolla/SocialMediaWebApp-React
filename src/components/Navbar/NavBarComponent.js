@@ -9,7 +9,7 @@ import { BsFillChatFill } from "react-icons/bs";
 import { GiTripleYin } from "react-icons/gi";
 
 function NavbarComponent() {
-    const writerId = 5;
+    const writerId = localStorage.getItem("user");
     return (
         <Navbar
             sticky="top"
@@ -22,7 +22,7 @@ function NavbarComponent() {
         >
             <Container fluid className="">
                 <Navbar.Brand style={{}}>
-                    <Link className="nav-link" to="/cards">
+                    <Link className="nav-link" to="/">
                         <GiTripleYin className="triple-yin align-self-center "></GiTripleYin>
                         Chatapp
                     </Link>
@@ -56,7 +56,16 @@ function NavbarComponent() {
                             </NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
-                    <Nav></Nav>
+                    <Nav>
+                        <Nav.Link href="#">
+                            <Link
+                                className="nav-link"
+                                to={`profile/${writerId}`}
+                            >
+                                Your Profile
+                            </Link>
+                        </Nav.Link>
+                    </Nav>
                 </Navbar.Collapse>
             </Container>
         </Navbar>
