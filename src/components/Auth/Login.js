@@ -4,7 +4,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import SendIcon from "@mui/icons-material/Send";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "./Register.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { loginReducer, INITIAL_STATE } from "./loginReducer/LoginReducers";
 import { ACTION_TYPES } from "./loginReducer/loginActionTypes";
@@ -30,6 +30,7 @@ export default function Login() {
                     type: ACTION_TYPES.success,
                     payload: response.data,
                 });
+                localStorage.setItem("user", state.writerId);
             })
             .catch((error) => {
                 dispatch({
@@ -45,6 +46,7 @@ export default function Login() {
             },
         },
     });
+
     return (
         <div
             style={{ minHeight: "calc(100vh - 80px)" }}
