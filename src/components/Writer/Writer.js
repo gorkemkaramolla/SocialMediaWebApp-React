@@ -32,36 +32,25 @@ export default function Writer() {
         console.error(e);
       });
   };
-  const inputBio = (value) => {
-    setWriterInfo((prev) => ({
-      ...prev,
-      bio: value,
-    }));
-  };
-  const inputUsername = (value) => {
-    setWriterInfo((prev) => ({
-      ...prev,
-      userName: value,
-    }));
-  };
-  const inputEmail = (value) => {
-    setWriterInfo((prev) => ({
-      ...prev,
-      email: value,
-    }));
+
+  const changeHolder = (event) => {
+    console.log(event.target.name);
+    setWriterInfo((values) => {
+      return { ...values, [event.target.name]: event.target.value };
+    });
   };
   const { writerId } = useParams();
   return (
     <div>
-      <h1>{writerInfo.email}</h1>
-      <h1>{writerInfo.bio}</h1>
-      <h1>{writerInfo.userName}</h1>
+      <div>{writerInfo.bio}</div>
       <div>
         <div>
           <label style={{ width: "80px" }}>email</label>
 
           <input
-            onChange={inputEmail}
+            onChange={(e) => {
+              changeHolder(e);
+            }}
             value={writerInfo.email}
             style={{ width: "300px" }}
             type="text"
@@ -74,19 +63,29 @@ export default function Writer() {
           <label style={{ width: "80px" }}>bio</label>
 
           <input
-            onChange={inputBio}
+            onChange={(e) => {
+              changeHolder(e);
+            }}
             value={writerInfo.bio}
             style={{ width: "300px" }}
             type="text"
             id="bio"
             defaultValue={writerInfo.bio}
           />
-          <button>change</button>
+          <button
+            onClick={() => {
+              window.confirm("Are you sure you want to continue?");
+            }}
+          >
+            change
+          </button>
         </div>
         <div>
           <label style={{ width: "80px" }}>username</label>
           <input
-            onChange={inputUsername}
+            onChange={(e) => {
+              changeHolder(e);
+            }}
             value={writerInfo.userName}
             style={{ width: "300px" }}
             type="text"
