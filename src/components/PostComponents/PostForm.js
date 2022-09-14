@@ -15,154 +15,160 @@ import FormControl from "@mui/material/FormControl";
 import axios from "axios";
 
 export default function PostForm(props) {
-  const [sent, setSent] = useState(false);
-  const [aPost, setApost] = useState({
-    title: "",
-    content: "",
-    writerId: 1,
-  });
-  const { name, lastName, refreshPost, writerId } = props;
+    const [sent, setSent] = useState(false);
+    const [aPost, setApost] = useState({
+        title: "",
+        content: "",
+        writerId: 1,
+    });
+    const { userName, refreshPost, writerId } = props;
 
-  const handleSubmit = () => {
-    if (aPost.title && aPost.content !== "") {
-      savePost();
-      setSent(true);
-    }
-    setTimeout(() => {
-      refreshPost();
-    }, 500);
-  };
+    const handleSubmit = () => {
+        if (aPost.title && aPost.content !== "") {
+            savePost();
+            setSent(true);
+            setApost((prev) => ({
+                ...prev,
+                content: "",
+                title: "",
+            }));
+        }
+        setTimeout(() => {
+            refreshPost();
+        }, 500);
+    };
 
-  const handleTitle = (value) => {
-    setApost((prev) => ({
-      ...prev,
-      title: value,
-    }));
-    setSent(false);
-  };
-  const handleContent = (value) => {
-    setApost((prev) => ({
-      ...prev,
-      content: value,
-    }));
-    setSent(false);
-  };
+    const handleTitle = (value) => {
+        setApost((prev) => ({
+            ...prev,
+            title: value,
+        }));
+        setSent(false);
+    };
+    const handleContent = (value) => {
+        setApost((prev) => ({
+            ...prev,
+            content: value,
+        }));
+        setSent(false);
+    };
 
-  let axiosConfig = {
-    headers: {
-      Authorization: localStorage.getItem("access"),
-    },
-  };
-  const savePost = () => {
-    axios
-      .post(
-        "/posts",
-        {
-          writerId: aPost.writerId,
-          content: aPost.content,
-          title: aPost.title,
+    let axiosConfig = {
+        headers: {
+            Authorization: localStorage.getItem("access"),
         },
-        axiosConfig
-      )
-      .then((response) => console.log(response.data))
-      .catch((error) => console.log(error));
-  };
+    };
+    const savePost = () => {
+        axios
+            .post(
+                "/posts",
+                {
+                    writerId: aPost.writerId,
+                    content: aPost.content,
+                    title: aPost.title,
+                },
+                axiosConfig
+            )
+            .then((response) => console.log(response.data))
+            .catch((error) => console.log(error));
+    };
 
-  return (
-    <div>
-      {sent && (
-        <SuccessMessage
-          message="Success"
-          variant="filled"
-          color="success"
-        ></SuccessMessage>
-      )}
-      <Card
-        sx={{
-          marginBottom: "1rem",
-          borderRadius: 3,
-        }}
-      >
-        <CardHeader
-          avatar={
-            <Link
-              className="avatar-link"
-              to={{ pathname: "/writers/" + writerId }}
+    return (
+        <div>
+            {sent && (
+                <SuccessMessage
+                    message="Success"
+                    variant="filled"
+                    color="success"
+                ></SuccessMessage>
+            )}
+            <Card
+                sx={{
+                    marginBottom: "1rem",
+                    borderRadius: 3,
+                }}
             >
-              <Avatar
-                className="avatar-mui"
-                sx={{ bgcolor: teal[500] }}
-                aria-label="recipe"
-              >
-                {name != null && name.charAt(0).toUpperCase()}
-              </Avatar>
-            </Link>
-          }
-          title={name + " " + lastName}
-        />
+                <CardHeader
+                    avatar={
+                        <Link
+                            className="avatar-link"
+                            to={{ pathname: "/writers/" + writerId }}
+                        >
+                            <Avatar
+                                className="avatar-mui"
+                                sx={{ bgcolor: teal[500] }}
+                                aria-label="recipe"
+                            >
+                                {userName != null &&
+                                    userName.charAt(0).toUpperCase()}
+                            </Avatar>
+                        </Link>
+                    }
+                    title={userName}
+                />
 
-        <CardContent className="d-flex justify-content-center flex-wrap">
-          <FormControl
-            sx={{
-              paddingLeft: 1,
-              marginBottom: 1,
-              width: "95%",
-              textAlign: "left",
-              borderRadius: "0px 10px",
-              background: "#f0f2f5",
-            }}
-          >
-            <TextField
-              onChange={(e) => {
-                handleTitle(e.target.value);
-              }}
-              value={aPost.title}
-              variant="standard"
-              multiline
-              placeholder={"Title"}
-              inputProps={{ maxLength: 55 }}
-              InputProps={{
-                disableUnderline: true, // <== added this
-              }}
-            ></TextField>
-          </FormControl>
-          <FormControl
-            sx={{
-              paddingLeft: 1,
-              width: "95%",
-              textAlign: "left",
-              borderRadius: "0px 10px ",
+                <CardContent className="d-flex justify-content-center flex-wrap">
+                    <FormControl
+                        sx={{
+                            paddingLeft: 1,
+                            marginBottom: 1,
+                            width: "95%",
+                            textAlign: "left",
+                            borderRadius: "0px 10px",
+                            background: "#f0f2f5",
+                        }}
+                    >
+                        <TextField
+                            onChange={(e) => {
+                                handleTitle(e.target.value);
+                            }}
+                            value={aPost.title}
+                            variant="standard"
+                            multiline
+                            placeholder={"Title"}
+                            inputProps={{ maxLength: 55 }}
+                            InputProps={{
+                                disableUnderline: true, // <== added this
+                            }}
+                        ></TextField>
+                    </FormControl>
+                    <FormControl
+                        sx={{
+                            paddingLeft: 1,
+                            width: "95%",
+                            textAlign: "left",
+                            borderRadius: "0px 10px ",
 
-              background: "#f0f2f5",
-            }}
-          >
-            <TextField
-              onChange={(e) => {
-                handleContent(e.target.value);
-              }}
-              value={aPost.content}
-              variant="standard"
-              multiline
-              placeholder={"Content"}
-              inputProps={{ maxLength: 250 }}
-              InputProps={{
-                disableUnderline: true, // <== added this
-              }}
-            ></TextField>
-          </FormControl>
-        </CardContent>
-        <CardActions disableSpacing sx={{ float: "right" }}>
-          <Button
-            size="small"
-            variant="text"
-            color="primary"
-            endIcon={<SendIcon />}
-            onClick={handleSubmit}
-          >
-            Send
-          </Button>
-        </CardActions>
-      </Card>
-    </div>
-  );
+                            background: "#f0f2f5",
+                        }}
+                    >
+                        <TextField
+                            onChange={(e) => {
+                                handleContent(e.target.value);
+                            }}
+                            value={aPost.content}
+                            variant="standard"
+                            multiline
+                            placeholder={"Content"}
+                            inputProps={{ maxLength: 250 }}
+                            InputProps={{
+                                disableUnderline: true, // <== added this
+                            }}
+                        ></TextField>
+                    </FormControl>
+                </CardContent>
+                <CardActions disableSpacing sx={{ float: "right" }}>
+                    <Button
+                        size="small"
+                        variant="text"
+                        color="primary"
+                        endIcon={<SendIcon />}
+                        onClick={handleSubmit}
+                    >
+                        Send
+                    </Button>
+                </CardActions>
+            </Card>
+        </div>
+    );
 }
