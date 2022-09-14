@@ -38,7 +38,6 @@ export default function Register() {
     function handleClick() {
         setLoading(true);
         handleRegisterRequest();
-        history("/login", { replace: true });
     }
 
     const handleMailCredentials = (value) => {
@@ -70,7 +69,6 @@ export default function Register() {
             })
             .then((response) => {
                 setRegisterError(false);
-                console.log(response.data);
                 setRegisterSuccess(true);
 
                 setLoading(false);
@@ -79,7 +77,6 @@ export default function Register() {
                 setRegisterSuccess(false);
                 setRegisterError(true);
                 setErrorMessage(error.response.data);
-                console.log(errorMessage);
 
                 setLoading(false);
             });
@@ -179,7 +176,7 @@ export default function Register() {
                                                     color: "#0095f6",
                                                 }}
                                                 className="nav-link"
-                                                to="/login"
+                                                to="/"
                                             >
                                                 Go to login
                                             </Link>
