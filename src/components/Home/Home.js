@@ -4,11 +4,14 @@ import { useEffect, useReducer } from "react";
 import PostCard from "../PostComponents/PostCard";
 import PostForm from "../PostComponents/PostForm";
 import "./Home.scss";
+import Loading from "./loadingAnim/Loading";
 import { homeReducer, INITIAL_STATE } from "./homeReducers/homeReducer";
 import { ACTION_TYPES } from "./homeReducers/homeActionTypes";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
     const [state, dispatch] = useReducer(homeReducer, INITIAL_STATE);
+    let history = useNavigate();
     let axiosConfig = {
         headers: {
             Authorization: localStorage.getItem("access"),
@@ -18,16 +21,19 @@ export default function Home() {
         await axios
             .get("/posts", axiosConfig)
             .then((response) => {
-                dispatch({
-                    type: ACTION_TYPES.success,
-                    payload: response.data,
-                });
-                console.log(response.data);
+                console.log(response);
+                setTimeout(() => {
+                    dispatch({
+                        type: ACTION_TYPES.success,
+                        payload: response.data,
+                    });
+                }, 1000);
             })
             .catch((error) => {
                 dispatch({ type: ACTION_TYPES.error });
 
                 console.log(error);
+                localStorage.clear();
             });
     };
 
@@ -36,9 +42,13 @@ export default function Home() {
     }, []);
 
     if (state.error) {
-        return <div>Error</div>;
+        return (
+            <div>
+                <h2>Sayfayı görüntülemeye izniniz yok </h2>
+            </div>
+        );
     } else if (!state.loading) {
-        return <div>Loading...</div>;
+        return <Loading />;
     } else {
         return (
             <div className="container">
@@ -56,8 +66,7 @@ export default function Home() {
                             className="col-lg-6 col-md-6 col-xs-6 col-sm-6 col-xxl-6 col-6 col-xs-fluid align-self-center"
                         >
                             <PostForm
-                                name="Görkem"
-                                lastName="karamolla"
+                                userName={localStorage.getItem("userName")}
                                 writerId={1}
                                 refreshPost={refreshPost}
                             ></PostForm>
@@ -69,7 +78,7 @@ export default function Home() {
                             >
                                 <PostCard
                                     postId={element.id}
-                                    writerId={element.userId}
+                                    writerId={localStorage.getItem("user")}
                                     userName={element.userName}
                                     title={element.title}
                                     content={element.content}
