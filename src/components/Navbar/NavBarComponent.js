@@ -2,13 +2,21 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./navbar.scss";
 import Avatar from "@mui/material/Avatar";
 import { BsFillChatFill } from "react-icons/bs";
 import { GiTripleYin } from "react-icons/gi";
 
 function NavbarComponent() {
+    let history = useNavigate();
+    const logout = () => {
+        localStorage.clear();
+        setTimeout(() => {
+            history("/", { replace: true });
+        }, 300);
+    };
+
     const writerId = localStorage.getItem("user");
     return (
         <Navbar
@@ -22,20 +30,23 @@ function NavbarComponent() {
         >
             <Container fluid className="">
                 <Navbar.Brand style={{}}>
-                    <Link className="nav-link" to="/">
-                        <GiTripleYin className="triple-yin align-self-center "></GiTripleYin>
-                        Chatapp
-                    </Link>
+                    <Nav.Link href="#">
+                        <Link
+                            className="nav-link"
+                            to={
+                                localStorage.getItem("user") === null
+                                    ? "/"
+                                    : "/home"
+                            }
+                        >
+                            <GiTripleYin className="triple-yin align-self-center "></GiTripleYin>
+                            Chatapp
+                        </Link>
+                    </Nav.Link>
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto ">
-                        <Nav.Link href="#">
-                            <Link className="nav-link" to="/register">
-                                Register
-                            </Link>
-                        </Nav.Link>
-
                         <NavDropdown
                             title="Dropdown"
                             id="collasible-nav-dropdown"
@@ -57,14 +68,23 @@ function NavbarComponent() {
                         </NavDropdown>
                     </Nav>
                     <Nav>
-                        <Nav.Link href="#">
-                            <Link
-                                className="nav-link"
-                                to={`profile/${writerId}`}
-                            >
-                                Your Profile
-                            </Link>
-                        </Nav.Link>
+                        {localStorage.getItem("user") !== null && (
+                            <>
+                                <Nav.Link href="#">
+                                    <Link
+                                        className="nav-link"
+                                        to={"/profile/" + writerId}
+                                    >
+                                        Your Profile
+                                    </Link>
+                                </Nav.Link>
+                                <Nav.Link href="#">
+                                    <div onClick={logout} className="nav-link">
+                                        Logout
+                                    </div>
+                                </Nav.Link>
+                            </>
+                        )}
                     </Nav>
                 </Navbar.Collapse>
             </Container>
