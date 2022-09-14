@@ -1,4 +1,6 @@
 import * as React from "react";
+import Skeleton from "@mui/material/Skeleton";
+
 import "./Postcard.scss";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
@@ -49,7 +51,7 @@ export default function PostCard(props) {
 
     const likedOrNot = () => {
         const likeControl = postLikes.find((like) => {
-            return like.userId === writerId;
+            return like.userId.toString() === writerId;
         });
 
         if (likeControl != null) {
@@ -78,8 +80,7 @@ export default function PostCard(props) {
     };
     let axiosConfig = {
         headers: {
-            Authorization:
-                "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjYyNzI0MzMzLCJleHAiOjE2NjMwNjY2NzV9.fk21fVMuydrPOgD1wdLtxV8DNARR6FsrK5_rVaacMYzr_VpA8EkjUfe4U292e3kHzX1LOVBJBZgGLOUc_DEgaQ",
+            Authorization: localStorage.getItem("access"),
         },
     };
     const deleteLike = () => {
@@ -134,8 +135,6 @@ export default function PostCard(props) {
 
     if (state.error) {
         return <div>ERROR</div>;
-    } else if (!state.loading) {
-        return <div>Loading...</div>;
     } else
         return (
             <Card
@@ -146,33 +145,78 @@ export default function PostCard(props) {
             >
                 <CardHeader
                     avatar={
-                        <Link
-                            className="avatar-link"
-                            to={{ pathname: "/writers/" + writerId }}
-                        >
-                            <Avatar
-                                className="avatar-mui"
-                                sx={{ bgcolor: blueGrey[500] }}
-                                aria-label="recipe"
+                        !state.loading ? (
+                            <Skeleton
+                                animation="wave"
+                                variant="circular"
+                                width={40}
+                                height={40}
+                            />
+                        ) : (
+                            <Link
+                                className="avatar-link"
+                                to={{ pathname: "/writers/" + writerId }}
                             >
-                                {userName != null &&
-                                    userName.charAt(0).toUpperCase()}
-                            </Avatar>
-                        </Link>
+                                <Avatar
+                                    className="avatar-mui"
+                                    sx={{ bgcolor: blueGrey[500] }}
+                                    aria-label="recipe"
+                                >
+                                    {userName != null &&
+                                        userName.charAt(0).toUpperCase()}
+                                </Avatar>
+                            </Link>
+                        )
                     }
-                    title={userName}
-                    subheader={title}
+                    title={
+                        !state.loading ? (
+                            <Skeleton
+                                animation="wave"
+                                height={10}
+                                width="80%"
+                                style={{ marginBottom: 6 }}
+                            />
+                        ) : (
+                            userName
+                        )
+                    }
+                    subheader={
+                        !state.loading ? (
+                            <Skeleton
+                                animation="wave"
+                                height={10}
+                                width="40%"
+                            />
+                        ) : (
+                            title
+                        )
+                    }
                 />
                 <CardContent className="alter-border">
-                    <Typography
-                        multiline
-                        noWrap={false}
-                        align="left"
-                        variant="body1"
-                        color="text.secondary"
-                    >
-                        {content}
-                    </Typography>
+                    {!state.loading ? (
+                        <div>
+                            <Skeleton
+                                animation="wave"
+                                height={10}
+                                style={{ marginBottom: 6 }}
+                            />
+                            <Skeleton
+                                animation="wave"
+                                height={10}
+                                width="80%"
+                            />
+                        </div>
+                    ) : (
+                        <Typography
+                            multiline
+                            noWrap={false}
+                            align="left"
+                            variant="body1"
+                            color="text.secondary"
+                        >
+                            {content}
+                        </Typography>
+                    )}
                 </CardContent>
                 <CardActions disableSpacing>
                     <div className="d-flex justify-content-end">
@@ -206,7 +250,7 @@ export default function PostCard(props) {
                         setCommentRefresh={setCommentRefresh}
                         name={"Görkem Karamolla"}
                         postId={postId}
-                        writerId={1}
+                        writerId={localStorage.getItem("user")}
                     ></CommentForm>
                     <p> All comments for this post</p>
                     {state.loading
@@ -215,8 +259,8 @@ export default function PostCard(props) {
                                   <Comment
                                       comment={comment.comment}
                                       postId={comment.postId}
-                                      writerId={1}
-                                      name={"Görkem Karamolla"}
+                                      writerId={comment.writerId}
+                                      name={comment.userName}
                                   ></Comment>
                               </div>
                           ))
