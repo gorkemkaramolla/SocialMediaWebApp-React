@@ -6,19 +6,50 @@ import Register from "./components/Auth/Register";
 import Login from "./components/Auth/Login";
 import Writer from "./components/Writer/Writer";
 import NavBarComponent from "./components/Navbar/NavBarComponent";
+import { useEffect, useState } from "react";
+
 function App() {
+    const [userData, setuserData] = useState("");
+
     return (
         <BrowserRouter>
-            <NavBarComponent></NavBarComponent>
             <Routes>
-                <Route exact path="/" element={<Home />}></Route>
+                <Route>
+                    <Route
+                        index
+                        path="/"
+                        element={
+                            localStorage.getItem("user") === null ? (
+                                <Login />
+                            ) : (
+                                <div>
+                                    <NavBarComponent></NavBarComponent>
+                                    <Home />
+                                </div>
+                            )
+                        }
+                    ></Route>
+                    <Route
+                        path="/home"
+                        element={
+                            <div>
+                                <NavBarComponent></NavBarComponent>
+                                <Home />
+                            </div>
+                        }
+                    ></Route>
+                </Route>
                 <Route
                     exact
                     path="/profile/:writerId"
-                    element={<Writer />}
+                    element={
+                        <div>
+                            <NavBarComponent></NavBarComponent>
+                            <Writer />
+                        </div>
+                    }
                 ></Route>
                 <Route exact path="/register" element={<Register />}></Route>
-                <Route exact path="/login" element={<Login />}></Route>
             </Routes>
         </BrowserRouter>
     );
