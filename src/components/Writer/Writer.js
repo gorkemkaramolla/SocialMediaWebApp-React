@@ -4,7 +4,8 @@ import { useParams } from "react-router-dom";
 import { FormHelperText, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import { InputAdornment } from "@mui/material";
-
+import PostForm from "../PostComponents/PostForm";
+import ProfileCard from "./ProfileCard";
 export default function Writer() {
     const [writerInfo, setWriterInfo] = useState({
         userName: "",
@@ -37,96 +38,25 @@ export default function Writer() {
             });
     };
 
-    const changeHolder = (event) => {
-        console.log(event.target.name);
-        setWriterInfo((values) => {
-            return { ...values, [event.target.name]: event.target.value };
-        });
-    };
     const { writerId } = useParams();
-    if (writerInfo.userName === "") {
-        return (
-            <div>
-                <div>{writerInfo.bio}</div>
-                <div>
-                    <div>
-                        <label style={{ width: "80px" }}>email</label>
-
-                        <input
-                            onChange={(e) => {
-                                changeHolder(e);
-                            }}
-                            value={writerInfo.email}
-                            style={{ width: "300px" }}
-                            type="text"
-                            id="email"
-                            defaultValue={writerInfo.email}
-                        />
-                        <button>change</button>
-                    </div>
-                    <div>
-                        <label style={{ width: "80px" }}>bio</label>
-
-                        <input
-                            onChange={(e) => {
-                                changeHolder(e);
-                            }}
-                            value={writerInfo.bio}
-                            style={{ width: "300px" }}
-                            type="text"
-                            id="bio"
-                            defaultValue={writerInfo.bio}
-                        />
-                        <button
-                            onClick={() => {
-                                window.confirm(
-                                    "Are you sure you want to continue?"
-                                );
-                            }}
-                        >
-                            change
-                        </button>
-                    </div>
-                    <div>
-                        <label style={{ width: "80px" }}>username</label>
-                        <input
-                            onChange={(e) => {
-                                changeHolder(e);
-                            }}
-                            value={writerInfo.userName}
-                            style={{ width: "300px" }}
-                            type="text"
-                            id="userName"
-                            defaultValue={writerInfo.userName}
-                        />
-                        <button>change</button>
-                    </div>
+    return (
+        <div className="container ">
+            <div className="row d-flex justify-content-start">
+                <div className="col-lg-12 col-md-fluid col-xs-fluid col-sm-fluid col-xxl-fluid col-fluid col-xs-fluid d-flex justify-content-center ">
+                    <ProfileCard></ProfileCard>
                 </div>
             </div>
-        );
-    } else {
-        return (
-            <div
-                className="d-flex flex-column  justify-content-center align-items-center"
-                style={{ minHeight: "calc(100vh - 80px)" }}
-            >
-                <TextField
-                    InputProps={{
-                        endAdornment: <Button title="Send"></Button>,
-                    }}
-                    inputProps={{
-                        maxLength: 25,
-                    }}
-                    sx={{ minWidth: 250 }}
-                    label="Username"
-                    ador
-                ></TextField>
-
-                <FormHelperText>
-                    You can pick a username between 3-25 characters long <br />
-                    You won't be able to change your username later
-                </FormHelperText>
+            <div className="row d-flex justify-content-center">
+                <div
+                    style={{ minWidth: "350px" }}
+                    className="col-xxl-6 col-lg-9 col-md-12 col-xs-12 col-sm-12  col-7 col-xs-fluid align-self-center"
+                >
+                    <PostForm
+                        userName={localStorage.getItem("userName")}
+                        writerId={1}
+                    ></PostForm>
+                </div>
             </div>
-        );
-    }
+        </div>
+    );
 }
