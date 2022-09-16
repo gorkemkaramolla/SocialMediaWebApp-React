@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import { InputAdornment } from "@mui/material";
 import PostForm from "../PostComponents/PostForm";
 import ProfileCard from "./ProfileCard";
+import "./writer.scss";
 export default function Writer() {
     const [writerInfo, setWriterInfo] = useState({
         userName: "",
@@ -43,20 +44,13 @@ export default function Writer() {
         <div className="container ">
             <div className="row d-flex justify-content-start">
                 <div className="col-lg-12 col-md-fluid col-xs-fluid col-sm-fluid col-xxl-fluid col-fluid col-xs-fluid d-flex justify-content-center ">
-                    <ProfileCard></ProfileCard>
-                </div>
-            </div>
-            <div className="row d-flex justify-content-center">
-                <div
-                    style={{ minWidth: "350px" }}
-                    className="col-xxl-6 col-lg-9 col-md-12 col-xs-12 col-sm-12  col-7 col-xs-fluid align-self-center"
-                >
-                    <PostForm
+                    <ProfileCard
                         userName={localStorage.getItem("userName")}
-                        writerId={1}
-                    ></PostForm>
+                        bio={writerInfo.bio}
+                    ></ProfileCard>
                 </div>
             </div>
+            <div className="row d-flex justify-content-center"></div>
         </div>
     );
 }
