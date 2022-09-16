@@ -42,11 +42,9 @@ export default function Home() {
     }, []);
 
     if (state.error) {
-        return (
-            <div>
-                <h2>Sayfayı görüntülemeye izniniz yok </h2>
-            </div>
-        );
+        setTimeout(() => {
+            history("/", { replace: true });
+        }, 300);
     } else if (!state.loading) {
         return <Loading />;
     } else {
@@ -67,7 +65,7 @@ export default function Home() {
                         >
                             <PostForm
                                 userName={localStorage.getItem("userName")}
-                                writerId={1}
+                                writerId={localStorage.getItem("user")}
                                 refreshPost={refreshPost}
                             ></PostForm>
                         </div>
