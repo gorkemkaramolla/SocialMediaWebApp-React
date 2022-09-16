@@ -19,7 +19,7 @@ export default function PostForm(props) {
     const [aPost, setApost] = useState({
         title: "",
         content: "",
-        writerId: 1,
+        writerId: localStorage.getItem("user"),
     });
     const { userName, refreshPost, writerId } = props;
 
