@@ -23,249 +23,241 @@ import { ACTION_TYPES } from "./PostReducers/postActionTypes";
 import { Link } from "react-router-dom";
 
 const ExpandMore = styled((props) => {
-    const { expand, ...other } = props;
-    return <IconButton {...other} />;
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
 })(({ theme, expand }) => ({
-    transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-    marginLeft: "auto",
-    transition: theme.transitions.create("transform", {
-        duration: theme.transitions.duration.shortest,
-    }),
+  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+  marginLeft: "auto",
+  transition: theme.transitions.create("transform", {
+    duration: theme.transitions.duration.shortest,
+  }),
 }));
 
 export default function PostCard(props) {
-    const [expanded, setExpanded] = useState(false);
-    const [liked, setLiked] = useState(false);
-    const isMounted = useRef(false);
+  const [expanded, setExpanded] = useState(false);
+  const [liked, setLiked] = useState(false);
+  const isMounted = useRef(false);
 
-    const { postLikes, writerId, postId, userName, content, title } = props;
-    const [refreshComments, setRefreshComments] = useState(true);
+  const {
+    postLikes,
+    writerId,
+    postId,
+    userName,
+    content,
+    title,
+    profileImagePath,
+  } = props;
+  const [refreshComments, setRefreshComments] = useState(true);
 
-    const [state, dispatch] = useReducer(postReducer, INITIAL_STATE);
-    const [likeCount, setLikeCount] = useState(postLikes.length);
-    const [likeId, setLikeId] = useState();
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-        if (!expanded) getComments();
-    };
+  const [state, dispatch] = useReducer(postReducer, INITIAL_STATE);
+  const [likeCount, setLikeCount] = useState(postLikes.length);
+  const [likeId, setLikeId] = useState();
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+    if (!expanded) getComments();
+  };
 
-    const likedOrNot = () => {
-        const likeControl = postLikes.find((like) => {
-            return like.userId.toString() === writerId;
-        });
+  const likedOrNot = () => {
+    const likeControl = postLikes.find((like) => {
+      return like.userId.toString() === writerId;
+    });
 
-        if (likeControl != null) {
-            setLikeId(likeControl.id);
-            setLiked(true);
-        } else {
-            setLiked(false);
-        }
-    };
-    useEffect(() => {
-        likedOrNot();
-    }, []);
+    if (likeControl != null) {
+      setLikeId(likeControl.id);
+      setLiked(true);
+    } else {
+      setLiked(false);
+    }
+  };
+  useEffect(() => {
+    likedOrNot();
+  }, []);
 
-    const handleFavorite = () => {
-        setLiked(!liked);
-        if (liked) {
-            setLikeCount(likeCount - 1);
-            deleteLike();
-        } else {
-            setLikeCount(likeCount + 1);
-            sendLike();
-        }
-    };
-    const setCommentRefresh = () => {
-        setRefreshComments(true);
-    };
-    let axiosConfig = {
-        headers: {
-            Authorization: localStorage.getItem("access"),
+  const handleFavorite = () => {
+    setLiked(!liked);
+    if (liked) {
+      setLikeCount(likeCount - 1);
+      deleteLike();
+    } else {
+      setLikeCount(likeCount + 1);
+      sendLike();
+    }
+  };
+  const setCommentRefresh = () => {
+    setRefreshComments(true);
+  };
+  let axiosConfig = {
+    headers: {
+      Authorization: localStorage.getItem("access"),
+    },
+  };
+  const deleteLike = () => {
+    axios
+      .delete("/postlikes/" + likeId, axiosConfig)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const sendLike = () => {
+    axios
+      .post(
+        "/postlikes",
+        {
+          postId: postId,
+          writerId: writerId,
         },
-    };
-    const deleteLike = () => {
-        axios
-            .delete("/postlikes/" + likeId, axiosConfig)
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
-    const sendLike = () => {
-        axios
-            .post(
-                "/postlikes",
-                {
-                    postId: postId,
-                    writerId: writerId,
-                },
-                axiosConfig
+        axiosConfig
+      )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getComments = useCallback(() => {
+    const url = "http://localhost:8080";
+    axios
+      .get(url + "/comments?postId=" + postId, axiosConfig)
+      .then((response) => {
+        dispatch({
+          type: ACTION_TYPES.success,
+          payload: response.data,
+        });
+      })
+      .catch((error) => {
+        dispatch({ type: ACTION_TYPES.error });
+        console.log(error);
+      });
+    setRefreshComments(false);
+  }, [postId]);
+
+  useEffect(() => {
+    if (isMounted.current) isMounted.current = false;
+    else getComments();
+  }, [getComments, refreshComments]);
+
+  if (state.error) {
+    return <div>ERROR</div>;
+  } else
+    return (
+      <Card
+        sx={{
+          marginBottom: "1rem",
+          borderRadius: 3,
+        }}
+      >
+        <CardHeader
+          avatar={
+            !state.loading ? (
+              <Skeleton
+                animation="wave"
+                variant="circular"
+                width={40}
+                height={40}
+              />
+            ) : (
+              <Link
+                className="avatar-link"
+                to={{ pathname: "/profile/" + postId }}
+              >
+                <Avatar src={`/images/${profileImagePath}`}></Avatar>
+              </Link>
             )
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
-
-    const getComments = useCallback(() => {
-        const url = "http://localhost:8080";
-        axios
-            .get(url + "/comments?postId=" + postId, axiosConfig)
-            .then((response) => {
-                dispatch({
-                    type: ACTION_TYPES.success,
-                    payload: response.data,
-                });
-            })
-            .catch((error) => {
-                dispatch({ type: ACTION_TYPES.error });
-                console.log(error);
-            });
-        setRefreshComments(false);
-    }, [postId]);
-
-    useEffect(() => {
-        if (isMounted.current) isMounted.current = false;
-        else getComments();
-    }, [getComments, refreshComments]);
-
-    if (state.error) {
-        return <div>ERROR</div>;
-    } else
-        return (
-            <Card
-                sx={{
-                    marginBottom: "1rem",
-                    borderRadius: 3,
-                }}
+          }
+          title={
+            !state.loading ? (
+              <Skeleton
+                animation="wave"
+                height={10}
+                width="80%"
+                style={{ marginBottom: 6 }}
+              />
+            ) : (
+              userName
+            )
+          }
+          subheader={
+            !state.loading ? (
+              <Skeleton animation="wave" height={10} width="40%" />
+            ) : (
+              title
+            )
+          }
+        />
+        <CardContent className="alter-border">
+          {!state.loading ? (
+            <div>
+              <Skeleton
+                animation="wave"
+                height={10}
+                style={{ marginBottom: 6 }}
+              />
+              <Skeleton animation="wave" height={10} width="80%" />
+            </div>
+          ) : (
+            <Typography
+              multiline
+              noWrap={false}
+              align="left"
+              variant="body1"
+              color="text.secondary"
             >
-                <CardHeader
-                    avatar={
-                        !state.loading ? (
-                            <Skeleton
-                                animation="wave"
-                                variant="circular"
-                                width={40}
-                                height={40}
-                            />
-                        ) : (
-                            <Link
-                                className="avatar-link"
-                                to={{ pathname: "/writers/" + writerId }}
-                            >
-                                <Avatar
-                                    className="avatar-mui"
-                                    sx={{ bgcolor: blueGrey[500] }}
-                                    aria-label="recipe"
-                                >
-                                    {userName != null &&
-                                        userName.charAt(0).toUpperCase()}
-                                </Avatar>
-                            </Link>
-                        )
-                    }
-                    title={
-                        !state.loading ? (
-                            <Skeleton
-                                animation="wave"
-                                height={10}
-                                width="80%"
-                                style={{ marginBottom: 6 }}
-                            />
-                        ) : (
-                            userName
-                        )
-                    }
-                    subheader={
-                        !state.loading ? (
-                            <Skeleton
-                                animation="wave"
-                                height={10}
-                                width="40%"
-                            />
-                        ) : (
-                            title
-                        )
-                    }
-                />
-                <CardContent className="alter-border">
-                    {!state.loading ? (
-                        <div>
-                            <Skeleton
-                                animation="wave"
-                                height={10}
-                                style={{ marginBottom: 6 }}
-                            />
-                            <Skeleton
-                                animation="wave"
-                                height={10}
-                                width="80%"
-                            />
-                        </div>
-                    ) : (
-                        <Typography
-                            multiline
-                            noWrap={false}
-                            align="left"
-                            variant="body1"
-                            color="text.secondary"
-                        >
-                            {content}
-                        </Typography>
-                    )}
-                </CardContent>
-                <CardActions disableSpacing>
-                    <div className="d-flex justify-content-end">
-                        <IconButton aria-label="add to favorites">
-                            <FavoriteIcon
-                                onClick={handleFavorite}
-                                style={liked ? { color: "red" } : null}
-                            />
-                        </IconButton>
-                        <div
-                            style={{ fontSize: "1em" }}
-                            className="align-self-center "
-                        >
-                            {likeCount}
-                        </div>
-                    </div>
+              {content}
+            </Typography>
+          )}
+        </CardContent>
+        <CardActions disableSpacing>
+          <div className="d-flex justify-content-end">
+            <IconButton aria-label="add to favorites">
+              <FavoriteIcon
+                onClick={handleFavorite}
+                style={liked ? { color: "red" } : null}
+              />
+            </IconButton>
+            <div style={{ fontSize: "1em" }} className="align-self-center ">
+              {likeCount}
+            </div>
+          </div>
 
-                    <ExpandMore
-                        expand={expanded}
-                        onClick={handleExpandClick}
-                        aria-expanded={expanded}
-                        aria-label="show more"
-                    >
-                        <CommentIcon></CommentIcon>
-                    </ExpandMore>
-                </CardActions>
+          <ExpandMore
+            expand={expanded}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <CommentIcon></CommentIcon>
+          </ExpandMore>
+        </CardActions>
 
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    {}
-                    <CommentForm
-                        setCommentRefresh={setCommentRefresh}
-                        name={"Görkem Karamolla"}
-                        postId={postId}
-                        writerId={localStorage.getItem("user")}
-                    ></CommentForm>
-                    <p> All comments for this post</p>
-                    {state.loading
-                        ? state.comments.map((comment) => (
-                              <div className="row d-flex justify-content-center">
-                                  <Comment
-                                      comment={comment.comment}
-                                      postId={comment.postId}
-                                      writerId={comment.writerId}
-                                      name={comment.userName}
-                                  ></Comment>
-                              </div>
-                          ))
-                        : "Loading"}
-                </Collapse>
-            </Card>
-        );
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CommentForm
+            setCommentRefresh={setCommentRefresh}
+            name={"Görkem Karamolla"}
+            postId={postId}
+            writerId={localStorage.getItem("user")}
+          ></CommentForm>
+          <p> All comments for this post</p>
+          {state.loading
+            ? state.comments.map((comment) => (
+                <div
+                  key={comment.id}
+                  className="row d-flex justify-content-center"
+                >
+                  <Comment
+                    comment={comment.comment}
+                    postId={comment.postId}
+                    writerId={comment.writerId}
+                    name={comment.userName}
+                  ></Comment>
+                </div>
+              ))
+            : "Loading"}
+        </Collapse>
+      </Card>
+    );
 }
