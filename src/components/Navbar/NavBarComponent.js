@@ -12,7 +12,7 @@ function NavbarComponent() {
   let history = useNavigate();
   const logout = () => {
     localStorage.clear();
-    history("login");
+    history("/auth/login");
   };
 
   const writerId = localStorage.getItem("user");
