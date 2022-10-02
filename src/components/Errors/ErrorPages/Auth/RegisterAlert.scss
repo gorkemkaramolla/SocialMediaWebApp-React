@@ -1,0 +1,20 @@
+div.register-alert {
+    margin-top: 10px;
+    animation-name: bounce;
+    animation-duration: 0.2s;
+    animation-delay: 0.15s;
+}
+@keyframes bounce {
+    0% {
+        transform: translateX(0px);
+        timing-function: ease-in;
+    }
+    37% {
+        transform: translateX(5px);
+        timing-function: ease-out;
+    }
+    55% {
+        transform: translateX(-5px);
+        timing-function: ease-in;
+    }
+}

@@ -1,0 +1,25 @@
+#page404 {
+    min-height: calc(100vh);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.text404 #p404 {
+    font-family: fantasy;
+    max-width: 650px;
+    text-align: center;
+    background: rgba(236, 239, 242, 255);
+}
+.text404 #h404 {
+    text-align: center;
+}
+.buttons:hover {
+    background-color: lightblue;
+    cursor: pointer;
+}
+.buttons {
+    border: 1px solid lightblue;
+    color: rgb(81, 10, 247);
+}

@@ -1,33 +1,3 @@
-.navbar-bg {
+nav.nav-bar-component {
+    background-color: rgba(199, 128, 137, 1);
 }
-.nav li a {
-    color: blue;
-}
-
-.triple-yin:hover {
-    -webkit-animation: spin 0.7s linear infinite;
-    animation: spin 0.9s linear infinite;
-}
-@-webkit-keyframes spin {
-    0% {
-        -webkit-transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(360deg);
-    }
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-/* 
-
-I will show you how to change a height of a standard Bootstrap navbar.
-
-*/

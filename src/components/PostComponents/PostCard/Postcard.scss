@@ -1,0 +1,25 @@
+div.post-card {
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    .avatar-link {
+        text-decoration: none;
+    }
+    .alter-border {
+        overflow: hidden;
+        box-shadow: rgb(204, 204, 204) 0px 1px 0px 0px;
+    }
+    .actions-container {
+        display: flex;
+        justify-content: end;
+        .action-counter {
+            align-self: center;
+            font-size: 1em;
+        }
+    }
+    .container-collapse {
+        div.comments-container {
+            display: flex;
+            justify-content: center;
+        }
+    }
+}

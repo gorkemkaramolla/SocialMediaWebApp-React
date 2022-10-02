@@ -1,0 +1,10 @@
+div.container {
+    div.row {
+        display: flex;
+        justify-content: start;
+        div.profile-card-container {
+            display: flex;
+            justify-content: center;
+        }
+    }
+}

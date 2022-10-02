@@ -1,0 +1,59 @@
+div.login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px);
+    div.header {
+        font-family: "didot";
+        font-style: italic;
+        h1 {
+            color: #9b2335;
+        }
+    }
+    div.container {
+        padding: 4em 6em;
+        max-width: 800px;
+        div.row {
+            div.wrapper {
+                div.text-field-wrapper {
+                    display: flex;
+                    flex-direction: column;
+                    div.field-text {
+                        background: rgba(236, 239, 242, 255);
+                        .eye-adornment {
+                            padding-left: -14px;
+                            cursor: pointer;
+                            .eye-icon {
+                                color: #4169e1;
+                            }
+                        }
+                    }
+                }
+                div.container-button {
+                    align-self: center;
+                    div.container-button-wrapper {
+                        display: flex;
+                        flex-direction: column;
+                        button.loading-button {
+                            min-height: 56px;
+                        }
+                        .helper-text-container {
+                            display: flex;
+                            justify-content: start;
+                            .form-helper-text {
+                                background-color: rgba(237, 239, 241, 255);
+                                font-size: 16px;
+                                color: black;
+                                padding-top: 20px;
+                                .nav-link {
+                                    color: #0095f6;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

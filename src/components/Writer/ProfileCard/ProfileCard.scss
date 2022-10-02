@@ -1,0 +1,82 @@
+.profile-icon:hover .overlay {
+    opacity: 1;
+}
+
+div.overlay {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    opacity: 0;
+    transition: 0.4s ease;
+    img.icon {
+        cursor: pointer;
+        font-size: 100px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        text-align: center;
+        width: 40px;
+        height: 40px;
+    }
+}
+//Skeleton
+div.card-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 2rem;
+    min-width: 345px;
+    width: 650px;
+    div.text-field-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        .field-text {
+            padding-bottom: 3rem;
+        }
+    }
+    .field-text-else {
+        display: flex;
+        justify-content: center;
+    }
+    div.avatar-container {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        label {
+            align-self: center;
+            div.profile-icon {
+                position: relative;
+                outline: none;
+                border: none;
+
+                width: 150px;
+                height: 150px;
+                .avatar-image {
+                    display: flex;
+                    width: 100%;
+                    height: 100%;
+                    cursor: pointer;
+                    border-radius: 50%;
+                }
+            }
+        }
+        input#photo {
+            display: none;
+            opacity: 0;
+            position: absolute;
+        }
+    }
+    .content-card {
+        .typo {
+            padding: 0 25% 0 25%;
+            display: block;
+        }
+    }
+    div.holder {
+        min-width: 350px;
+        align-self: center;
+    }
+}
