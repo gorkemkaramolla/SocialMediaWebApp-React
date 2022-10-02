@@ -1,18 +1,17 @@
-import * as React from "react";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
+import SendIcon from "@mui/icons-material/Send";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import { teal } from "@mui/material/colors";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardHeader from "@mui/material/CardHeader";
+import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
+import axios from "axios";
+import * as React from "react";
 import { useState } from "react";
-import SendIcon from "@mui/icons-material/Send";
 import { Link } from "react-router-dom";
 import SuccessMessage from "../../Errors/ErrorPages/Alerts/SuccessMessage";
-import FormControl from "@mui/material/FormControl";
-import axios from "axios";
 
 import "./Postform.scss";
 export default function PostForm(props) {

@@ -1,18 +1,17 @@
-import { React, useState, useReducer, useEffect } from "react";
-import { FormHelperText, InputAdornment, TextField } from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
 import SendIcon from "@mui/icons-material/Send";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { FormHelperText, InputAdornment, TextField } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./Login.scss";
-import { loginReducer, INITIAL_STATE } from "./loginReducer/LoginReducers";
-import { ACTION_TYPES } from "./loginReducer/loginActionTypes";
-import RegisterAlert from "../../Errors/ErrorPages/Auth/RegisterAlert";
-import { FaEye } from "react-icons/fa";
-import { FaEyeSlash } from "react-icons/fa";
 import { useFormik } from "formik";
+import { React, useEffect, useReducer, useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import RegisterAlert from "../../Errors/ErrorPages/Auth/RegisterAlert";
+import "./Login.scss";
+import { ACTION_TYPES } from "./loginReducer/loginActionTypes";
+import { INITIAL_STATE, loginReducer } from "./loginReducer/LoginReducers";
 export default function Login() {
     const [random, setRandom] = useState(0);
 

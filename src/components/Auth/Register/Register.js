@@ -1,24 +1,15 @@
-import React from "react";
-import { FormHelperText, TextField, InputAdornment } from "@mui/material";
-import { GiTripleYin } from "react-icons/gi";
-import LoginIcon from "@mui/icons-material/Login";
-import IconButton from "@mui/material/IconButton";
-import { styled } from "@mui/material/styles";
-import LoadingButton from "@mui/lab/LoadingButton";
-import SaveIcon from "@mui/icons-material/Save";
 import SendIcon from "@mui/icons-material/Send";
-import { red, orange } from "@mui/material/colors";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { FormHelperText, InputAdornment, TextField } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
+import { useFormik } from "formik";
+import React, { useEffect, useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import * as yup from "yup";
 import RegisterAlert from "../../Errors/ErrorPages/Auth/RegisterAlert";
 import "./Register.scss";
-import { useState } from "react";
-import axios from "axios";
-import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { FaEye } from "react-icons/fa";
-import { FaEyeSlash } from "react-icons/fa";
-import { useFormik } from "formik";
-import * as yup from "yup";
 
 export default function Register() {
     let history = useNavigate();

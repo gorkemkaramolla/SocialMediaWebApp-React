@@ -2,11 +2,9 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { GiTripleYin } from "react-icons/gi";
 import { Link, useNavigate } from "react-router-dom";
 import "./navbar.scss";
-import Avatar from "@mui/material/Avatar";
-import { BsFillChatFill } from "react-icons/bs";
-import { GiTripleYin } from "react-icons/gi";
 
 function NavbarComponent() {
     let history = useNavigate();
