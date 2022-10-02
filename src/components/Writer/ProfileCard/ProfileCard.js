@@ -1,19 +1,15 @@
-import * as React from "react";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Avatar from "@mui/material/Avatar";
-import Typography from "@mui/material/Typography";
-import { useEffect, useState } from "react";
 import { InputAdornment, TextField } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
 import axios from "axios";
-import PostForm from "../../PostComponents/PostForm/PostForm";
-import { Input } from "@mui/material";
+import * as React from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import uploadImage from "../../images/upload.png";
 import "./ProfileCard.scss";
-import { useNavigate } from "react-router-dom";
 
 export default function MediaCard(props) {
     let history = useNavigate();

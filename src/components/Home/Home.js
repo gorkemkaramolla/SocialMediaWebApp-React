@@ -1,14 +1,13 @@
-import { React, useContext } from "react";
 import axios from "axios";
-import { useEffect, useReducer } from "react";
-import PostForm from "../PostComponents/PostForm/PostForm";
-import PostCard from "../PostComponents/PostCard/PostCard";
-import "./Home.scss";
-import Loading from "./loadingAnim/Loading";
-import { homeReducer, INITIAL_STATE } from "./homeReducers/homeReducer";
-import { ACTION_TYPES } from "./homeReducers/homeActionTypes";
+import { React, useContext, useEffect, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 import ThemeContext from "../contexts/ThemeContext";
+import PostCard from "../PostComponents/PostCard/PostCard";
+import PostForm from "../PostComponents/PostForm/PostForm";
+import "./Home.scss";
+import { ACTION_TYPES } from "./homeReducers/homeActionTypes";
+import { homeReducer, INITIAL_STATE } from "./homeReducers/homeReducer";
+import Loading from "./loadingAnim/Loading";
 
 export default function Home() {
     const theme = useContext(ThemeContext);

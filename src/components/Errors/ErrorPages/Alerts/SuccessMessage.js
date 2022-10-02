@@ -1,9 +1,7 @@
-import * as React from "react";
-import Snackbar from "@mui/material/Snackbar";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import Stack from "@mui/material/Stack";
 import MuiAlert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+import Stack from "@mui/material/Stack";
+import * as React from "react";
 
 export default function SuccessMessage(props) {
     const { variant, message, color } = props;

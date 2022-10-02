@@ -1,17 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.scss";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Home from "./components/Home/Home";
-import Register from "./components/Auth/Register/Register";
 import Login from "./components/Auth/Login/Login";
-import Writer from "./components/Writer/Writer";
-import NavBarComponent from "./components/Navbar/NavBarComponent";
-import { useEffect, useState } from "react";
-import { HomeLayout } from "./components/Layouts/HomeLayout";
-import Page404 from "./components/Errors/ErrorPages/404/Page404";
-import AuthLayout from "./components/Layouts/AuthLayout";
+import Register from "./components/Auth/Register/Register";
 import { ThemeContextProvider } from "./components/contexts/ThemeContext";
+import Page404 from "./components/Errors/ErrorPages/404/Page404";
+import Home from "./components/Home/Home";
+import AuthLayout from "./components/Layouts/AuthLayout";
+import { HomeLayout } from "./components/Layouts/HomeLayout";
 import Settings from "./components/Settings/Settings";
+import Writer from "./components/Writer/Writer";
 function App() {
     const [userData, setuserData] = useState("");
 

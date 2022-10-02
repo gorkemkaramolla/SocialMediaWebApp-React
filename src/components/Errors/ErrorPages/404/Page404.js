@@ -1,7 +1,7 @@
-import React from "react";
-import "./Page404.scss";
 import Typography from "@mui/material/Typography";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import "./Page404.scss";
 
 const Page404 = () => {
     let history = useNavigate();

@@ -1,8 +1,6 @@
-import { React, useState, useEffect } from "react";
 import axios from "axios";
+import { React, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { FormHelperText, TextField } from "@mui/material";
-import Button from "@mui/material/Button";
 import PostForm from "../PostComponents/PostForm/PostForm";
 import ProfileCard from "./ProfileCard/ProfileCard";
 import "./writer.scss";

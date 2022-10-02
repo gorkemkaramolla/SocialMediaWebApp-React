@@ -1,5 +1,5 @@
-import * as React from "react";
 import CircularProgress from "@mui/material/CircularProgress";
+import * as React from "react";
 import "./loading.scss";
 const Loading = () => {
     return (
